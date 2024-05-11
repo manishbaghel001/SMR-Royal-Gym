@@ -1,0 +1,41 @@
+<div class="rectangle1"></div>
+<div class="pc-login"></div>
+<div class="welcomeBack">Welcome Back!</div>
+<form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+
+    <label for="exampleInputEmail" class="username">Email:</label>
+    <input type="email" class="rectangle2" id="exampleInputEmail" placeholder="Email" name="email"
+        aria-describedby="emailHelp" ngModel required>
+    <label for="exampleInputPassword" class="password">Password:</label>
+    <div class="rectangle3">
+        <input class="passwordInput" type="password" id="exampleInputPassword" placeholder="Password" id="password"
+            name="password" ngModel required>
+        <div class="passwordIcon">
+            <i *ngIf="passwordToggle" class='bx bx-show' (click)="togglePasswordVisibility()"></i>
+            <i *ngIf="!passwordToggle" class='bx bx-hide' (click)="togglePasswordVisibility()"></i>
+        </div>
+    </div>
+
+    <div class="dontHaveAndAccountRegister1">
+        <div class="labelWrapper1">
+            <a href="forgot" class="forgotPassword">Reset Password</a>
+            <div>
+                <button class="btn" type="submit">Login</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="rectangle5"></div>
+<div class="rectangle6"></div>
+<div class="modal" [ngStyle]="{'display':displayPhoneModal}" id="myPhoneModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': displayPhoneModal}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <!-- <app-phone-auth (closeModal)="closeModal()"></app-phone-auth> -->
+            </div>
+        </div>
+    </div>
+</div>

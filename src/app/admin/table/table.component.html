@@ -1,0 +1,187 @@
+<div class="card">
+    <p-table [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true" [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between -mt-3 -mb-3">
+                Users
+                <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id" style="width:auto">
+                    ID No <p-sortIcon field="id" />
+                </th>
+                <th pSortableColumn="name" style="width:auto">
+                    Name <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="phone" style="width:auto">
+                    Phone Number <p-sortIcon field="phone" />
+                </th>
+                <th pSortableColumn="aadhar" style="width:auto">
+                    Aadhar Card <p-sortIcon field="aadhar" />
+                </th>
+                <th pSortableColumn="address" style="width:auto">
+                    Address <p-sortIcon field="address" />
+                </th>
+                <th pSortableColumn="doj" style="width:auto">
+                    DOJ <p-sortIcon field="doj" />
+                </th>
+                <th pSortableColumn="advance" style="width:auto">
+                    Advance <p-sortIcon field="advance" />
+                </th>
+                <th pSortableColumn="fee" style="width:auto">
+                    Fee <p-sortIcon field="fee" />
+                </th>
+                <th pSortableColumn="photo" style="width:auto">
+                    Photo <p-sortIcon field="photo" />
+                </th>
+                <th style="width:auto">
+                    Action
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="id" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="name" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="phone" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="aadhar" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="address" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="doj" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="advance" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="fee" [showClearButton]="true" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="photo" [showClearButton]="true" />
+                </th>
+                <th>
+                    <!-- <p-columnFilter type="boolean" field="photo" /> -->
+                </th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-editing="editing">
+            <tr>
+                <td [pEditableColumn]="product.id" pEditableColumnField="id">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" (keydown.enter)="onEdit(product.uid)"
+                                [(ngModel)]="product.id" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.id }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.name" pEditableColumnField="name">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.name"
+                                (keydown.enter)="onEdit(product.uid)" required />
+                        </ng-template>
+
+                        <ng-template pTemplate="output">
+                            <p-tag [value]="product.name" [severity]="getSeverity(product)" />
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.phone" pEditableColumnField="phone">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText [(ngModel)]="product.phone" (keydown.enter)="onEdit(product.uid)" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.phone }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.aadhar" pEditableColumnField="aadhar">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.aadhar"
+                                (keydown.enter)="onEdit(product.uid)" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.aadhar }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.address" pEditableColumnField="address">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.address"
+                                (keydown.enter)="onEdit(product.uid)" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.address }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.doj" pEditableColumnField="doj">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.doj"
+                                (keydown.enter)="onEdit(product.uid)" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.doj }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.advance" pEditableColumnField="advance">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.advance"
+                                (keydown.enter)="onEdit(product.uid)" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.advance | currency : 'INR' }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.fee" pEditableColumnField="fee">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.fee"
+                                (keydown.enter)="onEdit(product.uid)" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <div
+                                [ngClass]="{'feeDue': product.fee === 0, 'lowFee': (product.fee > 0 && product.fee < 10),'onFee': product.fee > 10}">
+                                {{ product.fee | currency : 'INR' }}
+                            </div>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td [pEditableColumn]="product.photo" pEditableColumnField="photo">
+                    <p-image
+                        [src]="'https://firebasestorage.googleapis.com/v0/b/srm-royal-gym.appspot.com/o/' + product.uid + '?alt=media&token=70e5f4a4-0df3-4679-80af-1d981835a671'"
+                        [alt]="product.name" width="100" [preview]="true" class="shadow-4" />
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="output">
+                            <i style="font-size: 1.3rem; color:red" (click)="delete($event, product.uid)"
+                                class="pi pi-trash"></i>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
