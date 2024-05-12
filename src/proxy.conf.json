@@ -1,6 +1,0 @@
-{
-    "/api": {
-        "target": "https://console.firebase.google.com/u/0/project/srm-royal-gym/storage/srm-royal-gym.appspot.com/files",
-        "secure": false
-    }
-}

@@ -13,18 +13,17 @@ import { AdminboardComponent } from './adminboard/adminboard.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { TableComponent } from './table/table.component';
-import { NewuserComponent } from './newuser/newuser.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ImageModule } from 'primeng/image';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
     AdminboardComponent,
     TableComponent,
-    NewuserComponent,
     ForgotpasswordComponent,
     LoginComponent
   ],
@@ -42,7 +41,8 @@ import { ImageModule } from 'primeng/image';
     CommonModule,
     TagModule,
     ConfirmDialogModule,
-    ImageModule
+    ImageModule,
+    DropdownModule
   ],
   providers: [MessageService, ConfirmationService],
 })
