@@ -3,8 +3,11 @@
     <!-- New User -->
     <div class="flex justify-content-end gap-3 mt-5 mr-5 mb-2">
         <p-button (click)="newUser()" label="Add New User" />
-        <p-button (click)="newUser1()" label="Add New User1" />
+        <p-button *ngIf="!userTable" (click)="allUser()" label="All Users" />
+        <p-button *ngIf="userTable" (click)="feePendindUser()" label="Pending Fee Users" />
     </div>
+
+    <!-- Add New User Pop Up -->
     <p-dialog header="Add User" [modal]="true" [(visible)]="visible"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '55vw' }" [draggable]="false"
         [resizable]="false" [maximizable]="true">
@@ -84,8 +87,8 @@
     </p-dialog>
 
     <!-- User Table -->
-    <p-table [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true" [rows]="5"
-        [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
+    <p-table *ngIf="userTable" [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true"
+        [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
         [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between -mt-3 -mb-3">
@@ -275,8 +278,8 @@
     </p-table>
 
     <!-- Fee Table -->
-    <p-table [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true" [rows]="5"
-        [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
+    <p-table *ngIf="!userTable" [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true"
+        [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
         [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between -mt-3 -mb-3">

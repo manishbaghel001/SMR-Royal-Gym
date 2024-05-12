@@ -30,6 +30,8 @@ export class TableComponent implements OnInit {
   };
   uid: any;
   visible: boolean = false;
+  userTable: boolean = false;
+
   packageId = [
     { name: '1 Months', code: '1 Months' },
     { name: '3 Months', code: '3 Months' },
@@ -142,11 +144,16 @@ export class TableComponent implements OnInit {
     this.authService.setLoaderValue(false)
   }
 
-  newUser1() {
-    this.dataService.getImageUrl(this.uid)
-      .subscribe(url => {
-        this.imageUrl = url;
-      });
+  allUser() {
+    this.userTable = true;
+    // this.dataService.getImageUrl(this.uid)
+    //   .subscribe(url => {
+    //     this.imageUrl = url;
+    //   });
+  }
+
+  feePendindUser() {
+    this.userTable = false;
   }
 
   onUpload(event: FileUploadEvent) {
