@@ -3,8 +3,8 @@
     <!-- New User -->
     <div class="flex justify-content-end gap-3 mt-5 mr-5 mb-2">
         <p-button (click)="newUser()" label="Add New User" />
-        <p-button *ngIf="!userTable" (click)="allUser()" label="All Users" />
-        <p-button *ngIf="userTable" (click)="feePendindUser()" label="Pending Fee Users" />
+        <p-button *ngIf="!userTableHdn" (click)="allUser()" label="All Users" />
+        <p-button *ngIf="userTableHdn" (click)="feePendindUser()" label="Pending Fee Users" />
     </div>
 
     <!-- Add New User Pop Up -->
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-column gap-3 mb-5">
+            <div *ngIf="!userTableHdn" class="flex flex-column gap-3 mb-5">
                 <label for="photo" class="font-semibold w-6rem">Photo</label>
                 <div class="card flex justify-content-start">
                     <p-toast />
@@ -80,14 +80,14 @@
 
             <div class="flex justify-content-end gap-3">
                 <p-button label="Cancel" severity="secondary" (click)="cancel()" />
-                <p-button *ngIf="userdata.uid && userdata.uid!=null" label="Save" type="submit" />
-                <p-button *ngIf="userdata.uid!=null && !userdata.uid" label="Update" type="submit" />
+                <p-button *ngIf="updateBtnHdn" label="Save" type="submit" />
+                <p-button *ngIf="!updateBtnHdn" label="Update" type="submit" />
             </div>
         </form>
     </p-dialog>
 
     <!-- User Table -->
-    <p-table *ngIf="userTable" [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true"
+    <p-table *ngIf="userTableHdn" [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true"
         [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
         [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="caption">
@@ -278,7 +278,7 @@
     </p-table>
 
     <!-- Fee Table -->
-    <p-table *ngIf="!userTable" [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true"
+    <p-table *ngIf="!userTableHdn" [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true"
         [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
         [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="caption">

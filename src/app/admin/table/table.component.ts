@@ -18,19 +18,12 @@ export class TableComponent implements OnInit {
 
   mode: true
   userdata: any = {
-    aadhar: '',
-    address: '',
-    advance: '',
-    doj: '',
-    fee: '',
-    id: '',
-    name: '',
-    phone: '',
-    uid: ''
+
   };
   uid: any;
   visible: boolean = false;
-  userTable: boolean = false;
+  userTableHdn: boolean = false;
+  updateBtnHdn: boolean = false;
 
   packageId = [
     { name: '1 Months', code: '1 Months' },
@@ -62,8 +55,8 @@ export class TableComponent implements OnInit {
 
   edit(product) {
     console.log(product, "klklkll");
-    this.userdata = product
-
+    product = { ...product, package: { name: product['package'], code: product['package'] } },
+      this.userdata = product
     this.visible = true
   }
 
@@ -125,7 +118,9 @@ export class TableComponent implements OnInit {
   }
 
   newUser() {
+    this.userdata = {};
     this.visible = true;
+    this.updateBtnHdn = true
   }
 
   cancel() {
@@ -134,8 +129,8 @@ export class TableComponent implements OnInit {
   }
 
   addUser(userdata) {
-    this.authService.setLoaderValue(true)
-    userdata['package'] = userdata['package']['name']
+    this.authService.setLoaderValue(true);
+    userdata['package'] = userdata['package']['name'];
     userdata = { ...userdata, uid: this.uid }
     this.userdata = userdata
     this.dataService.setData(userdata.uid, userdata)
@@ -145,7 +140,7 @@ export class TableComponent implements OnInit {
   }
 
   allUser() {
-    this.userTable = true;
+    this.userTableHdn = true;
     // this.dataService.getImageUrl(this.uid)
     //   .subscribe(url => {
     //     this.imageUrl = url;
@@ -153,7 +148,7 @@ export class TableComponent implements OnInit {
   }
 
   feePendindUser() {
-    this.userTable = false;
+    this.userTableHdn = false;
   }
 
   onUpload(event: FileUploadEvent) {
