@@ -1,0 +1,26 @@
+$secondary: #111111;
+
+.subscribe {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../../../assets/bg.jpg');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container-fluid {
+    position: absolute;
+    z-index: 9;
+}
+
+@media (max-width: 991.98px) {
+    .container-fluid {
+        position: relative;
+        background: $secondary;
+    }
+}
+
+.btns {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}

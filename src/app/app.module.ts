@@ -20,12 +20,17 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { MainscreenComponent } from './mainboard/mainscreen/mainscreen.component';
+import { ForgotpasswordComponent } from './mainboard/forgotpassword/forgotpassword.component';
+import { VerifyemailComponent } from './mainboard/verifyemail/verifyemail.component';
+import { LoginComponent } from './mainboard/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainscreenComponent,
-    MainscreenComponent
+    ForgotpasswordComponent,
+    VerifyemailComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

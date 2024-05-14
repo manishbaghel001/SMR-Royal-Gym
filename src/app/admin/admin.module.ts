@@ -10,8 +10,6 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { AdminboardComponent } from './adminboard/adminboard.component';
-import { LoginComponent } from './login/login.component';
-import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { TableComponent } from './table/table.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { TagModule } from 'primeng/tag';
@@ -24,8 +22,6 @@ import { DropdownModule } from 'primeng/dropdown';
   declarations: [
     AdminboardComponent,
     TableComponent,
-    ForgotpasswordComponent,
-    LoginComponent
   ],
   imports: [
     AdminRoutingModule,

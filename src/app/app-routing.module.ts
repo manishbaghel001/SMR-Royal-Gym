@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './admin/login/login.component';
-import { ForgotpasswordComponent } from './admin/forgotpassword/forgotpassword.component';
-import { VerifyemailComponent } from './admin/verifyemail/verifyemail.component';
+import { LoginComponent } from './mainboard/login/login.component';
+import { ForgotpasswordComponent } from './mainboard/forgotpassword/forgotpassword.component';
+import { VerifyemailComponent } from './mainboard/verifyemail/verifyemail.component';
 import { MainscreenComponent } from './mainboard/mainscreen/mainscreen.component';
 
 const routes: Routes = [

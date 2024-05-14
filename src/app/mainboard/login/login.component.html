@@ -1,4 +1,4 @@
-<div [ngClass]="mode ? 'main-header-dark' : 'main-header'">
+<!-- <div [ngClass]="mode ? 'main-header-dark' : 'main-header'">
     <div [ngClass]="mode ? 'header header-dark': 'header header-light'">
         <div>
             <i class="pi pi-th-large"></i>
@@ -46,8 +46,23 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <!-- <app-phone-auth (closeModal)="closeModal()"></app-phone-auth> -->
+</div>
+</div>
+</div>
+</div> -->
+
+<div class="subscribe container-fluid my-5 py-5 text-center">
+    <h4 class="display-4 text-white font-weight-bold mt-5 mb-3">Subscribe Our Newsletter</h4>
+    <p class="text-white mb-4">Subscribe and get Our latest article in your inbox</p>
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" class="form-inline justify-content-center mb-5">
+        <div class="col-lg-2 input-group">
+            <input type="email" class="form-control-lg" placeholder="Email" name="email" ngModel required>
+            <input type="password" placeholder="Password" id="password" name="password" ngModel required
+                class="form-control-lg">
+            <div class="btns">
+                <a href="forgot">Reset Password</a>
+                <button class="btn btn-primary" type="submit">Login</button>
             </div>
         </div>
-    </div>
+    </form>
 </div>
