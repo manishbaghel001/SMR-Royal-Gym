@@ -1,3 +1,15 @@
+<div [ngClass]="mode ? 'main-header-dark' : 'main-header'">
+    <div [ngClass]="mode ? 'header header-dark': 'header header-light'">
+        <div>
+            <i class="pi pi-th-large"></i>
+            <span class="ml-2 tasksBoard">Admin Panel</span>
+        </div>
+        <div class="profile">
+            <span (click)="mainScreen()" class="ml-2 tasksBoard">Main Screen</span>
+        </div>
+    </div>
+</div>
+
 <div class="rectangle1"></div>
 <div class="pc-login"></div>
 <div class="welcomeBack">Welcome Back!</div>

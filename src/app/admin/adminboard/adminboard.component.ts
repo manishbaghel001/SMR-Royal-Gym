@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminboard',
@@ -10,9 +11,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 export class AdminboardComponent implements OnInit {
   mode = true
-  constructor(private authService: AuthService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private router: Router, private authService: AuthService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit() {
+  }
+
+  mainScreen() {
+    this.router.navigate(['/main'])
   }
 
   logout(event: Event) {

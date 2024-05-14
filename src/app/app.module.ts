@@ -11,24 +11,21 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { firebase } from './firebase';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { NavigatorComponent } from './mainboard/navigator/navigator.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { FooterComponent } from './mainboard/footer/footer.component';
-import { ContactformComponent } from './mainboard/contactform/contactform.component';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { MainscreenComponent } from './mainboard/mainscreen/mainscreen.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigatorComponent,
-    FooterComponent,
-    ContactformComponent,
+    MainscreenComponent,
+    MainscreenComponent
   ],
   imports: [
     BrowserModule,

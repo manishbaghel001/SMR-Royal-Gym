@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
-
+  mode: boolean = false
   @ViewChild('loginForm') loginForm!: NgForm;
   passwordToggle: boolean = false
   phoneNumber: any;
@@ -18,6 +18,11 @@ export class LoginComponent implements OnInit {
 
   async ngOnInit() {
 
+  }
+
+
+  mainScreen() {
+    this.router.navigate(['/main'])
   }
 
   openModal() {
