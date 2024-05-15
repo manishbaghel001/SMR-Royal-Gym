@@ -11,58 +11,45 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
-  mode: boolean = false
+
   @ViewChild('loginForm') loginForm!: NgForm;
-  passwordToggle: boolean = false
-  phoneNumber: any;
-  displayPhoneModal: string = 'none'
 
-  async ngOnInit() {
+  display = 'none';
+  displayVerify = 'none';
+  email: string = '';
+  async ngOnInit() { }
 
+  forgotPass() {
+    this.display = 'flex'
   }
 
+  closePopup() {
+    this.display = 'none'
+  }
+
+  forgotPasswordMail() {
+    if (this.email == '') {
+      alert('Please enter your email.')
+    }
+    else {
+      this.authService.forgotPassword(this.email).then((res) => {
+        this.displayVerify = 'flex';
+        this.display = 'none';
+      })
+    }
+  }
 
   mainScreen() {
     this.router.navigate(['/main'])
   }
 
-  openModal() {
-    this.displayPhoneModal = 'flex'
-  }
-  closeModal() {
-    this.displayPhoneModal = 'none'
-  }
   login(item: any) {
     if (!this.loginForm.valid) {
       alert('Please enter your email and password')
     }
     else {
       this.authService.signIn(item['email'], item['password']);
-      // this.authService.register(item['email'], item['password']);
     }
-  }
-
-  forgotPass() {
-    this.router.navigate(['/forgot-password'])
-  }
-
-  togglePasswordVisibility() {
-    const passwordInput = document.getElementById("password");
-    if (passwordInput['type'] === "password") {
-      passwordInput['type'] = "text";
-      this.passwordToggle = false;
-    } else {
-      passwordInput['type'] = "password";
-      this.passwordToggle = true;
-    }
-  }
-
-  signInWithGoogle() {
-    this.authService.signInWithGoogle()
-  }
-
-  signInWithGithub() {
-    this.authService.signInWithGithub()
   }
 
 }

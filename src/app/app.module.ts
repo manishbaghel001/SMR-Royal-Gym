@@ -20,21 +20,19 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { MainscreenComponent } from './mainboard/mainscreen/mainscreen.component';
-import { ForgotpasswordComponent } from './mainboard/forgotpassword/forgotpassword.component';
-import { VerifyemailComponent } from './mainboard/verifyemail/verifyemail.component';
 import { LoginComponent } from './mainboard/login/login.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainscreenComponent,
-    ForgotpasswordComponent,
-    VerifyemailComponent,
     LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    DialogModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -55,7 +53,7 @@ import { LoginComponent } from './mainboard/login/login.component';
     FormsModule,
     BrowserModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [
   ],

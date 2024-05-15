@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrl: './table.component.css',
+  styleUrl: './table.component.css'
 })
 
 export class TableComponent implements OnInit {

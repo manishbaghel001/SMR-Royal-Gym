@@ -1,67 +1,62 @@
-<!-- <div [ngClass]="mode ? 'main-header-dark' : 'main-header'">
-    <div [ngClass]="mode ? 'header header-dark': 'header header-light'">
-        <div>
-            <i class="pi pi-th-large"></i>
-            <span class="ml-2 tasksBoard">Admin Panel</span>
+<div class="modal" [ngStyle]="{'display':display}" id="myModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': display}">
+    <div class="subscribe1">
+        <div class="popup-header m-4">
+            <span class="header">Forgot your password?</span>
+            <i class="pi pi-times close-popup-icon" (click)="closePopup()"></i>
         </div>
-        <div class="profile">
-            <span (click)="mainScreen()" class="ml-2 tasksBoard">Main Screen</span>
-        </div>
-    </div>
-</div>
-
-<div class="rectangle1"></div>
-<div class="pc-login"></div>
-<div class="welcomeBack">Welcome Back!</div>
-<form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
-
-    <label for="exampleInputEmail" class="username">Email:</label>
-    <input type="email" class="rectangle2" id="exampleInputEmail" placeholder="Email" name="email"
-        aria-describedby="emailHelp" ngModel required>
-    <label for="exampleInputPassword" class="password">Password:</label>
-    <div class="rectangle3">
-        <input class="passwordInput" type="password" id="exampleInputPassword" placeholder="Password" id="password"
-            name="password" ngModel required>
-        <div class="passwordIcon">
-            <i *ngIf="passwordToggle" class='bx bx-show' (click)="togglePasswordVisibility()"></i>
-            <i *ngIf="!passwordToggle" class='bx bx-hide' (click)="togglePasswordVisibility()"></i>
-        </div>
-    </div>
-
-    <div class="dontHaveAndAccountRegister1">
-        <div class="labelWrapper1">
-            <a href="forgot" class="forgotPassword">Reset Password</a>
-            <div>
-                <button class="btn" type="submit">Login</button>
+        <div class="pop-contant">
+            <p class="text-white mb-4 mt-4 ml-8">Your password will be reset by email.</p>
+            <div class="controls">
+                <label class="login-label display-8 mb-2 text-white font-weight-bold">Enter your email
+                    address</label>
+                <input type="email" class="forgot-control-lg" placeholder="Email" name="email" [(ngModel)]="email"
+                    required>
+                <button class="next-btn-primary mt-2" (click)="forgotPasswordMail()">Next</button>
             </div>
         </div>
     </div>
-
-</form>
-
-<div class="rectangle5"></div>
-<div class="rectangle6"></div>
-<div class="modal" [ngStyle]="{'display':displayPhoneModal}" id="myPhoneModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': displayPhoneModal}">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
 </div>
-</div>
-</div>
-</div> -->
 
-<div class="subscribe container-fluid my-5 py-5 text-center">
-    <h4 class="display-4 text-white font-weight-bold mt-5 mb-3">Subscribe Our Newsletter</h4>
-    <p class="text-white mb-4">Subscribe and get Our latest article in your inbox</p>
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" class="form-inline justify-content-center mb-5">
-        <div class="col-lg-2 input-group">
-            <input type="email" class="form-control-lg" placeholder="Email" name="email" ngModel required>
-            <input type="password" placeholder="Password" id="password" name="password" ngModel required
-                class="form-control-lg">
-            <div class="btns">
-                <a href="forgot">Reset Password</a>
-                <button class="btn btn-primary" type="submit">Login</button>
+<div class="modal" [ngStyle]="{'display':displayVerify}" id="myModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': displayVerify}">
+    <div class="subscribe1">
+        <div class="pop-contant">
+            <div class="box">
+                <i class="fa fa-envelope" style="font-size:48px;color:#e31c25; margin-bottom: 10px;"
+                    aria-hidden="true"></i>
+                <span class="title">Check your email</span>
+                <span class="title1">We've sent instructions on how to reset <br> your password to
+                    <strong class="bold-email">{{email}}</strong></span>
+                <a class="title2" href="login">Verified logging in</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="subscribe container-fluid py-5 text-center">
+    <div class="main-page-control">
+        <div></div>
+        <button class="login-btn-primary py-2 px-3" (click)="mainScreen()">Main Page</button>
+    </div>
+
+    <h4 class="display-4 text-white font-weight-bold pt-5 mb-3">Panel For Admin Only</h4>
+    <p class="text-white mb-4">Login here to access users data</p>
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" class="form-inline justify-content-center mb-5 -ml-5">
+        <div>
+            <div>
+                <label class="login-label display-8 mb-2 text-white font-weight-bold">Email Address</label>
+                <input type="email" class="login-control-lg" placeholder="Email" name="email" ngModel required>
+            </div>
+            <div>
+                <label class="login-label display-8 mb-2 text-white font-weight-bold">Password</label>
+                <input type="password" placeholder="Password" id="password" name="password" ngModel required
+                    class="login-control-lg">
+
+            </div>
+            <div class="btns mt-2">
+                <a (click)="forgotPass()" style="color: #e31c25;">Reset Password</a>
+                <button class="login-btn-primary py-2 px-3" type="submit">Login</button>
             </div>
         </div>
     </form>
