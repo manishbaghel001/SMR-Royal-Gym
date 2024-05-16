@@ -5,8 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-mainscreen',
   templateUrl: './mainscreen.component.html',
-  styleUrl: './mainscreen.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./mainscreen.component.scss', '../../../assets/src/style.min.css']
 })
 export class MainscreenComponent {
 
