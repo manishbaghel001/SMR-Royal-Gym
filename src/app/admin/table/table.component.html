@@ -1,10 +1,12 @@
+<p-toast />
 <div class="card flex justify-content-end flex-wrap">
 
     <!-- New User -->
     <div class="flex justify-content-end gap-3 mt-5 mr-5 mb-2">
-        <p-button (click)="newUser()" label="Add New User" />
-        <p-button *ngIf="!userTableHdn" (click)="allUser()" label="All Users" />
-        <p-button *ngIf="userTableHdn" (click)="feePendindUser()" label="Pending Fee Users" />
+        <p-button (click)="newUser()" severity="success" [raised]="true" label="Add New User" />
+        <p-button *ngIf="!userTableHdn" (click)="allUser()" severity="info" [raised]="true" label="All Users" />
+        <p-button *ngIf="userTableHdn" (click)="feePendindUser()" severity="danger" [raised]="true"
+            label="Pending Fee Users" />
     </div>
 
     <!-- Add New User Pop Up -->
@@ -13,7 +15,6 @@
         [resizable]="false" [maximizable]="true">
         <form #userForm="ngForm" (ngSubmit)="addUser(userForm.value)">
             <div class="flex flex-wrap">
-
                 <div class="flex flex-column gap-3 mb-5 mr-4">
                     <label for="id" class="font-semibold w-6rem">ID</label>
                     <input pInputText id="id" class="flex-auto" autocomplete="off" name="id" [(ngModel)]="userdata.id"
@@ -41,8 +42,9 @@
                 </div>
                 <div class="flex flex-column gap-3 mb-5 mr-4">
                     <label for="doj" class="font-semibold w-9rem">Date Of Joining</label>
-                    <input pInputText id="doj" class="flex-auto" autocomplete="off" name="doj"
-                        [(ngModel)]="userdata.doj" required />
+                    <p-calendar [showIcon]="true" name="doj" inputId="doj" [showOnFocus]="false" dateFormat="dd/mm/yy"
+                        required id="doj" class="flex-auto" autocomplete="off" [(ngModel)]="dojDate"
+                        [showButtonBar]="true" />
                 </div>
                 <div class="flex flex-column gap-3 mb-5 mr-4">
                     <label for="advance" class="font-semibold w-6rem">Advance</label>
@@ -55,26 +57,34 @@
                         [(ngModel)]="userdata.fee" required />
                 </div>
                 <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="feedate" class="font-semibold w-6rem">Fee Date</label>
-                    <input pInputText id="feedate" class="flex-auto" autocomplete="off" name="feedate"
-                        [(ngModel)]="userdata.feedate" required />
+                    <label for="feedate" class="font-semibold w-6rem"> Fee Date </label>
+                    <p-calendar [showIcon]="true" name="feedate" inputId="feedate" [showOnFocus]="false"
+                        dateFormat="dd/mm/yy" required id="feedate" class="flex-auto" autocomplete="off"
+                        [(ngModel)]="feeDate" [showButtonBar]="true" />
                 </div>
                 <div class="flex flex-column gap-3 mb-5 mr-4">
                     <label for="package" class="font-semibold w-6rem">Package</label>
                     <p-dropdown [options]="packageId" id="package" class="flex-auto" autocomplete="off" name="package"
                         [(ngModel)]="userdata.package" optionLabel="name" [showClear]="true"
                         placeholder="Select a Package" required />
-                    <!-- <input pInputText id="package" class="flex-auto" autocomplete="off" name="package" [(ngModel)]="userdata.package" required /> -->
                 </div>
             </div>
 
-            <div *ngIf="!userTableHdn" class="flex flex-column gap-3 mb-5">
+            <div class="flex flex-column gap-3 mb-5">
                 <label for="photo" class="font-semibold w-6rem">Photo</label>
+
                 <div class="card flex justify-content-start">
-                    <p-toast />
-                    <p-fileUpload mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
-                        url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
-                        (onUpload)="onUpload($event)" />
+                    <div *ngIf="removeImageHide" class="gap-3">
+                        <p-image class="flex"
+                            [src]="'https://firebasestorage.googleapis.com/v0/b/srm-royal-gym.appspot.com/o/' + userdata.uid + '?alt=media&token=70e5f4a4-0df3-4679-80af-1d981835a671'"
+                            [alt]="userdata.name" width="100" [preview]="true" class="shadow-4" />
+                        <p-button label="Remove File" class="ml-5" (click)="removeFile(userdata.uid)"></p-button>
+                    </div>
+                    <p-fileUpload name="demo[]" *ngIf="!removeImageHide" (onSelect)="onFileSelect($event)"
+                        [auto]="false" accept="image/*" maxFileSize="1000000">
+                        <ng-template pTemplate="content">
+                        </ng-template>
+                    </p-fileUpload>
                 </div>
             </div>
 
@@ -266,10 +276,10 @@
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="output">
-                            <i style="font-size: 1.3rem; color:blue" (click)="edit(product)"
-                                class="pi pi-user-edit mr-2"></i>
-                            <i style="font-size: 1.3rem; color:red" (click)="delete($event, product.uid)"
-                                class="pi pi-trash"></i>
+                            <p-button size="large" icon="pi pi-user-edit" [rounded]="true" [text]="true" severity="info"
+                                (click)="edit(product)" />
+                            <p-button size="large" icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                                (click)="delete($event, product.uid)" />
                         </ng-template>
                     </p-cellEditor>
                 </td>
@@ -278,9 +288,10 @@
     </p-table>
 
     <!-- Fee Table -->
-    <p-table *ngIf="!userTableHdn" [value]="users" dataKey="id" styleClass="p-datatable-gridlines" [paginator]="true"
-        [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
-        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+    <p-table *ngIf="!userTableHdn" [value]="pendingFeeUsers" dataKey="id" styleClass="p-datatable-gridlines"
+        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }"
+        [first]="first" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between -mt-3 -mb-3">
                 Fee
@@ -401,10 +412,10 @@
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="output">
-                            <i style="font-size: 1.3rem; color:blue" (click)="edit(product)"
-                                class="pi pi-user-edit mr-2"></i>
-                            <i style="font-size: 1.3rem; color:red" (click)="delete($event, product.uid)"
-                                class="pi pi-trash"></i>
+                            <p-button size="large" icon="pi pi-user-edit" [rounded]="true" [text]="true" severity="info"
+                                (click)="edit(product)" />
+                            <p-button size="large" icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                                (click)="delete($event, product.uid)" />
                         </ng-template>
                     </p-cellEditor>
                 </td>

@@ -17,7 +17,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ImageModule } from 'primeng/image';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { CalendarModule } from 'primeng/calendar';
 @NgModule({
   declarations: [
     AdminboardComponent,
@@ -38,7 +38,8 @@ import { DropdownModule } from 'primeng/dropdown';
     TagModule,
     ConfirmDialogModule,
     ImageModule,
-    DropdownModule
+    DropdownModule,
+    CalendarModule
   ],
   providers: [MessageService, ConfirmationService],
 })

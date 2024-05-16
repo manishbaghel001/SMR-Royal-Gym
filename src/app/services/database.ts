@@ -11,6 +11,10 @@ export class DataService {
         return this.storage.ref(path).getDownloadURL();
     }
 
+    removeImage(path: string) {
+        return this.storage.ref(path).delete();
+    }
+
     uploadImage(imageFile: File, path: string) {
 
         const uploadTask = this.storage.ref(path).put(imageFile);

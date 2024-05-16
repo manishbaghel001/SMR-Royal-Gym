@@ -6,22 +6,16 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { firebase } from './firebase';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ButtonModule } from 'primeng/button';
-import { MenubarModule } from 'primeng/menubar';
-import { InputTextModule } from 'primeng/inputtext';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { StyleClassModule } from 'primeng/styleclass';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { MainscreenComponent } from './mainboard/mainscreen/mainscreen.component';
 import { LoginComponent } from './mainboard/login/login.component';
-import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -32,7 +26,6 @@ import { DialogModule } from 'primeng/dialog';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DialogModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -40,13 +33,8 @@ import { DialogModule } from 'primeng/dialog';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    ButtonModule,
-    MenubarModule,
-    InputTextModule,
-    OverlayPanelModule,
     ProgressSpinnerModule,
-    CommonModule,
-    StyleClassModule,
+    CommonModule
   ],
   exports: [
     CommonModule,

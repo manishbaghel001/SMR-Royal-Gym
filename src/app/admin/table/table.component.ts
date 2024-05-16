@@ -3,7 +3,6 @@ import { DataService } from 'src/app/services/database';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
-import { FileUploadEvent } from 'primeng/fileupload';
 import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-table',
@@ -15,35 +14,32 @@ export class TableComponent implements OnInit {
   users: any;
   first = 0;
   rows = 10;
-
   mode: true
-  userdata: any = {
-
-  };
+  userdata: any = {};
+  feeDate: Date | undefined;
+  dojDate: Date | undefined;
   uid: any;
   visible: boolean = false;
   userTableHdn: boolean = false;
   updateBtnHdn: boolean = false;
 
   packageId = [
-    { name: '1 Months', code: '1 Months' },
-    { name: '3 Months', code: '3 Months' },
-    { name: '6 Months', code: '6 Months' },
-    { name: '1 Year', code: '1 Year' }
+    { name: '1 Months', code: 1 },
+    { name: '3 Months', code: 3 },
+    { name: '6 Months', code: 6 },
+    { name: '1 Year', code: 12 }
   ];
+  removeImageHide: boolean = false;
+  imageUrl: string;
+  pendingFeeUsers: any;
+  selectedFile: File | null = null;
 
   @ViewChild('userForm') userForm!: NgForm;
-  imageUrl: string;
 
   constructor(private authService: AuthService, private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.authService.setLoaderValue(true)
-    this.dataService.getData()
-      .subscribe(data => {
-        this.users = data;
-        this.authService.setLoaderValue(false)
-      });
+    this.reset()
   }
 
   onEdit(uid) {
@@ -53,10 +49,19 @@ export class TableComponent implements OnInit {
     this.authService.setLoaderValue(false)
   }
 
+  removeFile(uid) {
+    this.dataService.removeImage(uid);
+    this.removeImageHide = false
+  }
+
   edit(product) {
-    console.log(product, "klklkll");
-    product = { ...product, package: { name: product['package'], code: product['package'] } },
-      this.userdata = product
+    this.feeDate = new Date(this.convertToDate(product['feedate']))
+    this.dojDate = new Date(this.convertToDate(product['doj']))
+
+    product = { ...product, package: this.packageId.find((id => id['name'] == product['package'])) };
+    this.userdata = product
+
+    this.removeImageHide = true
     this.visible = true
   }
 
@@ -73,6 +78,7 @@ export class TableComponent implements OnInit {
 
       accept: () => {
         this.authService.setLoaderValue(true)
+        this.dataService.removeImage(uid)
         this.dataService.deleteData(uid)
         this.authService.setLoaderValue(false)
         this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
@@ -113,6 +119,10 @@ export class TableComponent implements OnInit {
     this.dataService.getData()
       .subscribe(data => {
         this.users = data;
+        this.users.forEach(ele => {
+          ele['package'] = this.packageId.find((id => id['code'] == ele['package']))['name']
+        });
+        this.pendingFeeUsers = this.users.filter(object => object.culprit);
         this.authService.setLoaderValue(false)
       });
   }
@@ -120,7 +130,10 @@ export class TableComponent implements OnInit {
   newUser() {
     this.userdata = {};
     this.visible = true;
-    this.updateBtnHdn = true
+    this.updateBtnHdn = true;
+    this.feeDate = undefined;
+    this.dojDate = undefined;
+    this.removeImageHide = false;
   }
 
   cancel() {
@@ -128,12 +141,54 @@ export class TableComponent implements OnInit {
     this.userForm.resetForm();
   }
 
-  addUser(userdata) {
+  convertToDate(inputDateString) {
+    const [day, month, year] = inputDateString.split('/').map(Number);
+    const fullYear = year + 2000;
+    const dateObject = new Date(fullYear, month - 1, day);
+    const formattedDateString = dateObject.toString();
+    return formattedDateString
+  }
+
+  isPastOrToday(dateString) {
+    const [day, month, year] = dateString.split('/').map(Number);
+    const givenDate = new Date(year + 2000, month - 1, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return today >= givenDate;
+  }
+
+  convertToStrDate(dateObject) {
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const year = String(dateObject.getFullYear()).slice(-2);
+    return `${day}/${month}/${year}`;
+  }
+
+  addUser(product) {
+    if (this.userdata['uid']) {
+      this.uid = this.userdata['uid']
+    } else {
+      this.uid = uuidv4()
+    }
+
     this.authService.setLoaderValue(true);
-    userdata['package'] = userdata['package']['name'];
-    userdata = { ...userdata, uid: this.uid }
-    this.userdata = userdata
-    this.dataService.setData(userdata.uid, userdata)
+    product['package'] = product['package']['code'];
+
+    const feeDateObject = new Date(this.feeDate);
+    const dojDataObject = new Date(this.dojDate);
+    const nextDateObject = new Date(this.feeDate);
+    nextDateObject.setMonth(feeDateObject.getMonth() + product.package);
+
+    product = {
+      ...product, uid: this.uid, nextFeeDate: this.convertToStrDate(nextDateObject),
+      doj: this.convertToStrDate(dojDataObject), feedate: this.convertToStrDate(feeDateObject),
+      culprit: this.isPastOrToday(this.convertToStrDate(nextDateObject))
+    }
+
+    this.dataService.uploadImage(this.selectedFile, this.uid);
+    this.dataService.setData(product.uid, product);
+
+    this.reset()
     this.visible = false
     this.userForm.resetForm();
     this.authService.setLoaderValue(false)
@@ -141,21 +196,14 @@ export class TableComponent implements OnInit {
 
   allUser() {
     this.userTableHdn = true;
-    // this.dataService.getImageUrl(this.uid)
-    //   .subscribe(url => {
-    //     this.imageUrl = url;
-    //   });
   }
 
   feePendindUser() {
     this.userTableHdn = false;
   }
 
-  onUpload(event: FileUploadEvent) {
-    for (let file of event.files) {
-      this.uid = uuidv4()
-      this.dataService.uploadImage(file, this.uid);
-    }
+  onFileSelect(event: any) {
+    this.selectedFile = event.files[0];
   }
 
 }
