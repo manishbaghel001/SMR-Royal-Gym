@@ -2,18 +2,18 @@
 <div class="container-fluid p-0 nav-bar">
     <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
         <a href="" class="navbar-brand">
-            <h1 class="m-0 display-4 font-weight-bold text-uppercase text-white">Gymnast</h1>
+            <h1 class="m-0 display-4 font-weight-bold text-uppercase text-white">SMR Royal Gym</h1>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ml-auto p-4 bg-secondary">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About Us</a>
-                <a href="feature.html" class="nav-item nav-link">Our Features</a>
-                <a href="class.html" class="nav-item nav-link">Classes</a>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a (click)="scrollTo('carousel')" class="nav-item nav-link active">Home</a>
+                <a (click)="scrollTo('aboutUs')" class="nav-item nav-link">About Us</a>
+                <a (click)="scrollTo('ourFeatures')" class="nav-item nav-link">Our Features</a>
+                <a (click)="scrollTo('classes')" class="nav-item nav-link">Classes</a>
+                <a (click)="scrollTo('footer')" class="nav-item nav-link">Contact</a>
                 <a (click)="admin()" class="nav-item nav-link">Admin</a>
             </div>
         </div>
@@ -31,7 +31,8 @@
                     <h3 class="text-primary text-capitalize m-0">Gym & Fitness Center</h3>
                     <h2 class="display-2 m-0 mt-2 mt-md-4 text-white font-weight-bold text-capitalize">Best Gym In
                         Town</h2>
-                    <a href="" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Join Us Now</a>
+                    <a (click)="scrollTo('connect')"
+                        class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Join Us Now</a>
                 </div>
             </div>
             <div class="carousel-item">
@@ -40,7 +41,8 @@
                     <h3 class="text-primary text-capitalize m-0">Gym & Fitness Center</h3>
                     <h2 class="display-2 m-0 mt-2 mt-md-4 text-white font-weight-bold text-capitalize">Get Body In
                         Shape</h2>
-                    <a href="" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Join Us Now</a>
+                    <a (click)="scrollTo('connect')"
+                        class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Join Us Now</a>
                 </div>
             </div>
         </div>
@@ -67,7 +69,7 @@
                     Lorem justo tempor sit aliquyam invidunt, amet vero ea dolor ipsum ut diam sit dolores, dolor
                     sit eos sea sanctus erat lorem nonumy sanctus takimata. Kasd amet sit sadipscing at..
                 </p>
-                <a href="" class="btn btn-lg btn-outline-light mt-4 px-4">Join Now</a>
+                <a (click)="scrollTo('connect')" class="btn btn-lg btn-outline-light mt-4 px-4">Join Now</a>
             </div>
         </div>
         <div class="col-md-6 p-0">
@@ -79,7 +81,7 @@
                     Lorem justo tempor sit aliquyam invidunt, amet vero ea dolor ipsum ut diam sit dolores, dolor
                     sit eos sea sanctus erat lorem nonumy sanctus takimata. Kasd amet sit sadipscing at..
                 </p>
-                <a href="" class="btn btn-lg btn-outline-light mt-4 px-4">Join Now</a>
+                <a (click)="scrollTo('connect')" class="btn btn-lg btn-outline-light mt-4 px-4">Join Now</a>
             </div>
         </div>
     </div>
@@ -108,7 +110,7 @@
                     <p>Ipsum sanctu dolor ipsum dolore sit et kasd duo</p>
                 </div>
             </div>
-            <a href="" class="btn btn-lg px-4 btn-outline-primary">Learn More</a>
+            <!-- <a href="" class="btn btn-lg px-4 btn-outline-primary">Learn More</a> -->
         </div>
     </div>
 </div>
@@ -116,7 +118,7 @@
 
 
 <!-- Features Start -->
-<div class="container-fluid my-5">
+<div id="classes" class="container-fluid my-5">
     <div class="row">
         <div class="col-lg-4 p-0">
             <div class="d-flex align-items-center bg-secondary text-white px-5" style="min-height: 300px;">
@@ -154,7 +156,7 @@
 
 
 <!-- GYM Feature Start -->
-<div class="container feature pt-5">
+<div id="ourFeatures" class="container feature pt-5">
     <div class="d-flex flex-column text-center mb-5">
         <h4 class="text-primary font-weight-bold">Why Choose Us?</h4>
         <h4 class="display-4 font-weight-bold">Benifits of Joining Our GYM</h4>
@@ -216,405 +218,8 @@
 </div>
 <!-- GYM Feature End -->
 
-
-<!-- Subscribe Start -->
-<div class="subscribe container-fluid my-5 py-5 text-center">
-    <h4 class="display-4 text-white font-weight-bold mt-5 mb-3">Subscribe Our Newsletter</h4>
-    <p class="text-white mb-4">Subscribe and get Our latest article in your inbox</p>
-    <form class="form-inline justify-content-center mb-5">
-        <div class="input-group">
-            <input type="text" class="form-control-lg" placeholder="Your Email">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Subscribe</button>
-            </div>
-        </div>
-    </form>
-</div>
-<!-- Subscribe End -->
-
-
-<!-- Class Timetable Start -->
-<div class="container gym-feature py-5">
-    <div class="d-flex flex-column text-center mb-5">
-        <h4 class="text-primary font-weight-bold">Class Timetable</h4>
-        <h4 class="display-4 font-weight-bold">Working Hours and Class Time</h4>
-    </div>
-    <div class="tab-class">
-        <ul class="nav nav-pills justify-content-center mb-4">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="pill" href="#class-all">All Classes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#class-cardio">Cardio</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#class-crossfit">Crossfit</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#class-powerlifting">Powerlifting</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div id="class-all" class="container tab-pane p-0 active">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-lg m-0">
-                        <thead class="bg-secondary text-white text-center">
-                            <tr>
-                                <th>Time</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                                <th>Saturday</th>
-                                <th>Sunday</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="class-cardio" class="container tab-pane fade p-0">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-lg m-0">
-                        <thead class="bg-secondary text-white text-center">
-                            <tr>
-                                <th>Time</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                                <th>Saturday</th>
-                                <th>Sunday</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Cardio</h5>John Deo
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="class-crossfit" class="container tab-pane fade p-0">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-lg m-0">
-                        <thead class="bg-secondary text-white text-center">
-                            <tr>
-                                <th>Time</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                                <th>Saturday</th>
-                                <th>Sunday</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Crossfit</h5>Adam Phillips
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="class-powerlifting" class="container tab-pane fade p-0">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-lg m-0">
-                        <thead class="bg-secondary text-white text-center">
-                            <tr>
-                                <th>Time</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                                <th>Saturday</th>
-                                <th>Sunday</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                <td></td>
-                                <td>
-                                    <h5>Cardio</h5>John Deo
-                                </td>
-                                <td></td>
-                                <td>
-                                    <h5>Crossfit</h5>Adam Phillips
-                                </td>
-                                <td></td>
-                                <td class="bg-primary text-white">
-                                    <h5 class="text-white">Power Lifting</h5>James Alien
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Class Timetable End -->
-
-
 <!-- BMI Calculation Start -->
-<div class="container-fluid position-relative bmi my-5">
+<div id="connect" class="container-fluid position-relative bmi my-5">
     <div class="container">
         <div class="row px-3 align-items-center">
             <div class="col-md-6">
@@ -831,7 +436,7 @@
 
 
 <!-- Blog Start -->
-<div class="container pt-5">
+<div id="aboutUs" class="container pt-5">
     <div class="d-flex flex-column text-center mb-5">
         <h4 class="text-primary font-weight-bold">Our Blog</h4>
         <h4 class="display-4 font-weight-bold">Latest Article From Blog</h4>
@@ -858,7 +463,7 @@
             <p>Eos kasd et sea labore. Et sed amet magna elitr amet, stet et amet erat nonumy labore lorem ut eos,
                 sed ut at tempor diam no. Kasd sit ea amet lorem et sea, ipsum sed dolor dolores sed dolore eirmod
                 vero dolor sed kasd accusam</p>
-            <a class="btn btn-outline-primary mt-2 px-3" href="">Read More <i class="fa fa-angle-right"></i></a>
+            <!-- <a class="btn btn-outline-primary mt-2 px-3" href="">Read More <i class="fa fa-angle-right"></i></a> -->
         </div>
         <div class="col-lg-6 mb-5 blog-item">
             <img class="img-fluid mb-4" src="../../../assets/blog-2.jpg" alt="Image">
@@ -881,7 +486,7 @@
             <p>Eos kasd et sea labore. Et sed amet magna elitr amet, stet et amet erat nonumy labore lorem ut eos,
                 sed ut at tempor diam no. Kasd sit ea amet lorem et sea, ipsum sed dolor dolores sed dolore eirmod
                 vero dolor sed kasd accusam</p>
-            <a class="btn btn-outline-primary mt-2 px-3" href="">Read More <i class="fa fa-angle-right"></i></a>
+            <!-- <a class="btn btn-outline-primary mt-2 px-3" href="">Read More <i class="fa fa-angle-right"></i></a> -->
         </div>
     </div>
 </div>
@@ -889,12 +494,14 @@
 
 
 <!-- Footer Start -->
-<div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
+<div id="footer" class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
     <div class="row pt-5">
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="text-primary mb-4">Get In Touch</h4>
-            <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
-            <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
+            <p><i class="fa fa-map-marker-alt mr-2"></i>Muniramreddy Building 2nd Floor Doddathogur Road, opposite
+                velankanni tech park, Bengaluru,
+                Karnataka 560100</p>
+            <p><i class="fa fa-phone-alt mr-2"></i>+91 99009 00094</p>
             <!-- <p><i class="fa fa-envelope mr-2"></i>info@example.com</p> -->
             <div class="d-flex justify-content-start mt-4">
                 <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 40px; height: 40px;"
@@ -910,21 +517,27 @@
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="text-primary mb-4">Quick Links</h4>
             <div class="d-flex flex-column justify-content-start">
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Features</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Classes</a>
-                <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                <a (click)="scrollTo('carousel')" class="text-white mb-2"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                <a (click)="scrollTo('aboutUs')" class="text-white mb-2"><i class="fa fa-angle-right mr-2"></i>About
+                    Us</a>
+                <a (click)="scrollTo('ourFeatures')" class="text-white mb-2"><i class="fa fa-angle-right mr-2"></i>Our
+                    Features</a>
+                <a (click)="scrollTo('classes')" class="text-white mb-2"><i
+                        class="fa fa-angle-right mr-2"></i>Classes</a>
+                <a (click)="scrollTo('footer')" class="text-white"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="text-primary mb-4">Popular Links</h4>
             <div class="d-flex flex-column justify-content-start">
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Features</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Classes</a>
-                <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                <a (click)="scrollTo('carousel')" class="text-white mb-2"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                <a (click)="scrollTo('aboutUs')" class="text-white mb-2"><i class="fa fa-angle-right mr-2"></i>About
+                    Us</a>
+                <a (click)="scrollTo('ourFeatures')" class="text-white mb-2"><i class="fa fa-angle-right mr-2"></i>Our
+                    Features</a>
+                <a (click)="scrollTo('classes')" class="text-white mb-2"><i
+                        class="fa fa-angle-right mr-2"></i>Classes</a>
+                <a (click)="scrollTo('footer')" class="text-white"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
@@ -937,9 +550,10 @@
     </div>
     <div class="container border-top border-dark pt-5">
         <p class="m-0 text-center text-white">
-            &copy; <a class="text-white font-weight-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed
+            &copy; <a class="text-white font-weight-bold" href="#">https://srm-royal-gym.vercel.app</a>. All Rights
+            Reserved. Designed
             by
-            <a class="text-white font-weight-bold" href="https://htmlcodex.com">HTML Codex</a>
+            <a class="text-white font-weight-bold" href="https://manishbaghel.tech">Manish Baghel</a>
         </p>
     </div>
 </div>

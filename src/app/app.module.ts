@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { firebase } from './firebase';
@@ -44,6 +44,7 @@ import { LoginComponent } from './mainboard/login/login.component';
     BrowserAnimationsModule
   ],
   providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
