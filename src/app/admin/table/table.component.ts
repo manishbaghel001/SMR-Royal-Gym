@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/database';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
+import { Table } from 'primeng/table';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -14,11 +14,8 @@ export class TableComponent implements OnInit {
   users: any;
   first = 0;
   rows = 10;
-  mode: true
   userdata: any = {};
-  feeDate: Date | undefined;
-  dojDate: Date | undefined;
-  uid: any;
+
   visible: boolean = false;
   userTableHdn: boolean = false;
   updateBtnHdn: boolean = false;
@@ -30,23 +27,38 @@ export class TableComponent implements OnInit {
     { name: '1 Year', code: 12 }
   ];
   removeImageHide: boolean = false;
-  imageUrl: string;
   pendingFeeUsers: any;
+
+  feeDate: Date | undefined;
+  dojDate: Date | undefined;
+  uid: any;
   selectedFile: File | null = null;
+  showLoader: boolean = false;
+  searchValue: string | undefined;
 
   @ViewChild('userForm') userForm!: NgForm;
 
-  constructor(private authService: AuthService, private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+
+
+  clear(table: Table) {
+    table.clear();
+    this.searchValue = ''
+  }
+
+  search(table: Table) {
+    // console.log(table, "klklk");
+  }
 
   ngOnInit() {
     this.reset()
   }
 
   onEdit(uid) {
-    this.authService.setLoaderValue(true)
+    this.showLoader = true
     let user = this.users.find(user => user.uid === uid)
     this.dataService.setData(uid, user)
-    this.authService.setLoaderValue(false)
+    this.showLoader = false
   }
 
   removeFile(uid) {
@@ -61,8 +73,9 @@ export class TableComponent implements OnInit {
     product = { ...product, package: this.packageId.find((id => id['name'] == product['package'])) };
     this.userdata = product
 
-    this.removeImageHide = true
-    this.visible = true
+    this.removeImageHide = true;
+    this.visible = true;
+    this.selectedFile = null;
   }
 
   delete(event: Event, uid) {
@@ -77,10 +90,10 @@ export class TableComponent implements OnInit {
       rejectIcon: "none",
 
       accept: () => {
-        this.authService.setLoaderValue(true)
+        this.showLoader = true
         this.dataService.removeImage(uid)
         this.dataService.deleteData(uid)
-        this.authService.setLoaderValue(false)
+        this.showLoader = false
         this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
       },
       reject: () => {
@@ -113,17 +126,16 @@ export class TableComponent implements OnInit {
   isFirstPage(): boolean {
     return this.users ? this.first === 0 : true;
   }
-
   reset() {
-    this.authService.setLoaderValue(true)
+    this.showLoader = true
     this.dataService.getData()
       .subscribe(data => {
         this.users = data;
         this.users.forEach(ele => {
-          ele['package'] = this.packageId.find((id => id['code'] == ele['package']))['name']
+          ele['package'] = this.packageId.find((id => id['code'] == ele['package']))['name'];
         });
         this.pendingFeeUsers = this.users.filter(object => object.culprit);
-        this.authService.setLoaderValue(false)
+        this.showLoader = false
       });
   }
 
@@ -134,6 +146,8 @@ export class TableComponent implements OnInit {
     this.feeDate = undefined;
     this.dojDate = undefined;
     this.removeImageHide = false;
+    this.selectedFile = null;
+    this.uid = undefined;
   }
 
   cancel() {
@@ -164,14 +178,19 @@ export class TableComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
+  getUniqueImageUrl(uid: string): string {
+    const timestamp = new Date().getTime();
+    return `https://firebasestorage.googleapis.com/v0/b/srm-royal-gym.appspot.com/o/${uid}?alt=media&amp;token=70e5f4a4-0df3-4679-80af-1d981835a671&amp;t=${timestamp}`;
+  }
+
   addUser(product) {
+    this.showLoader = true;
     if (this.userdata['uid']) {
       this.uid = this.userdata['uid']
     } else {
       this.uid = uuidv4()
     }
 
-    this.authService.setLoaderValue(true);
     product['package'] = product['package']['code'];
 
     const feeDateObject = new Date(this.feeDate);
@@ -184,14 +203,31 @@ export class TableComponent implements OnInit {
       doj: this.convertToStrDate(dojDataObject), feedate: this.convertToStrDate(feeDateObject),
       culprit: this.isPastOrToday(this.convertToStrDate(nextDateObject))
     }
-
-    this.dataService.uploadImage(this.selectedFile, this.uid);
     this.dataService.setData(product.uid, product);
 
-    this.reset()
-    this.visible = false
-    this.userForm.resetForm();
-    this.authService.setLoaderValue(false)
+    if (this.selectedFile != null) {
+      this.dataService.uploadImage(this.selectedFile, this.uid).subscribe(
+        status => {
+          if (status === 'completed') {
+            // window.location.reload();
+            this.reset()
+            this.visible = false
+            this.userForm.resetForm();
+            this.showLoader = false
+          }
+        },
+        error => {
+          console.error('Upload failed:', error);
+          alert('Image upload failed!');
+        }
+      );
+
+    } else {
+      this.reset()
+      this.visible = false
+      this.userForm.resetForm();
+      this.showLoader = false;
+    }
   }
 
   allUser() {

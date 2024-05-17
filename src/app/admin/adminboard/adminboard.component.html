@@ -1,17 +1,16 @@
 <p-toast />
 <p-confirmDialog />
-<div [ngClass]="mode ? 'main-header-dark' : 'main-header'">
-    <div [ngClass]="mode ? 'header header-dark': 'header header-light'">
-        <div>
-            <i class="pi pi-th-large"></i>
-            <span class="ml-2 tasksBoard">Admin Panel</span>
-        </div>
-        <div class="profile">
-            <span (click)="mainScreen()" class="ml-2 tasksBoard">Main Screen</span>
-            <span (click)="logout($event)" class="ml-2 tasksBoard">Log Out</span>
-        </div>
+<div class="header">
+    <div>
+        <i class="pi pi-th-large"></i>
+        <span class="ml-4 tasksBoard">Admin Panel</span>
+    </div>
+    <div class="profile">
+        <p-button class="mr-4" size="small" (click)="mainScreen()" [outlined]="true" [raised]="true"
+            label="Main Screen" />
+        <p-button size="small" (click)="logout($event)" severity="danger" [raised]="true" label="Log Out" />
     </div>
 </div>
-<div class="manish">
+<div>
     <app-table></app-table>
 </div>

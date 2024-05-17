@@ -10,7 +10,6 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { AdminboardComponent } from './adminboard/adminboard.component';
-import { TableComponent } from './table/table.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -18,6 +17,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ImageModule } from 'primeng/image';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { TableComponent } from './table/table.component';
 @NgModule({
   declarations: [
     AdminboardComponent,
@@ -39,7 +42,10 @@ import { CalendarModule } from 'primeng/calendar';
     ConfirmDialogModule,
     ImageModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    ProgressSpinnerModule,
+    IconFieldModule,
+    InputIconModule
   ],
   providers: [MessageService, ConfirmationService],
 })

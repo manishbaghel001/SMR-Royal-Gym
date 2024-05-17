@@ -10,11 +10,10 @@ import { Router } from '@angular/router';
 })
 
 export class AdminboardComponent implements OnInit {
-  mode = true
+
   constructor(private router: Router, private authService: AuthService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   mainScreen() {
     this.router.navigate(['/main'])

@@ -13,13 +13,6 @@
                 <a href="about.html" class="nav-item nav-link">About Us</a>
                 <a href="feature.html" class="nav-item nav-link">Our Features</a>
                 <a href="class.html" class="nav-item nav-link">Classes</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu text-capitalize">
-                        <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                        <a href="single.html" class="dropdown-item">Blog Detail</a>
-                    </div>
-                </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
                 <a (click)="admin()" class="nav-item nav-link">Admin</a>
             </div>
@@ -29,7 +22,7 @@
 <!-- Navbar End -->
 
 <!-- Carousel Start -->
-<div class="container-fluid p-0">
+<div id="carousel" class="container-fluid p-0">
     <div id="blog-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -954,4 +947,4 @@
 
 
 <!-- Back to Top -->
-<a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+<a (click)="scrollTo('carousel')" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
