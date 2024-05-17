@@ -4,10 +4,12 @@
         <a href="" class="navbar-brand">
             <h1 class="m-0 display-4 font-weight-bold text-uppercase text-white">SMR Royal Gym</h1>
         </a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <button (click)="toggleNavbar()" type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div [ngClass]="{'show': isNavbarCollapsed}" class="collapse navbar-collapse justify-content-between"
+            id="navbarCollapse">
             <div class="navbar-nav ml-auto p-4 bg-secondary">
                 <a (click)="scrollTo('carousel')" class="nav-item nav-link active">Home</a>
                 <a (click)="scrollTo('aboutUs')" class="nav-item nav-link">About Us</a>

@@ -12,6 +12,13 @@ export class MainscreenComponent {
   constructor(private el: ElementRef, private router: Router) { }
   activeMenuItem: string | null = null;
   menuOpen = false;
+
+  isNavbarCollapsed: boolean = false;
+
+  toggleNavbar() {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
+
   admin() {
     this.router.navigate(['/admin'])
   }
