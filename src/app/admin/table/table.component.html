@@ -108,7 +108,7 @@
             <ng-template pTemplate="caption" dataKey="id">
 
             </ng-template>
-            <ng-template pTemplate="caption">
+            <!-- <ng-template pTemplate="caption">
                 <div class="flex">
                     <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
                     <span class="p-input-icon-left ml-auto">
@@ -116,6 +116,12 @@
                         <input pInputText type="text" [(ngModel)]="searchValue" (input)="search(dt1)"
                             placeholder="Search keyword" />
                     </span>
+                </div>
+            </ng-template> -->
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between -mt-3 -mb-3">
+                    All Users
+                    <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text" />
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
