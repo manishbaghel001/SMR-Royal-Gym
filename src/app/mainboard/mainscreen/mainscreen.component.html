@@ -236,34 +236,32 @@
             <div class="col-md-6 bg-secondary py-5">
                 <div class="py-5 px-3">
                     <h1 class="mb-4 text-white">Calculate your BMI</h1>
-                    <form>
+                    <form #connectForm="ngForm" (ngSubmit)="connect(connectForm.value)">
                         <div class="form-row">
                             <div class="col form-group">
                                 <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                    placeholder="Weight (KG)">
+                                    placeholder="Name" name="name" ngModel required>
                             </div>
                             <div class="col form-group">
                                 <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                    placeholder="Height (CM)">
+                                    placeholder="Contact Number" name="number" ngModel required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col form-group">
                                 <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                    placeholder="Age">
+                                    placeholder="Age" name="age" ngModel required>
                             </div>
                             <div class="col form-group">
-                                <select class="custom-select custom-select-lg bg-dark text-muted">
-                                    <option>Gender</option>
-                                    <option>Mal</option>
-                                    <option>Female</option>
-                                </select>
+                                <input type="email" class="form-control form-control-lg bg-dark text-white"
+                                    placeholder="Email" name="email" ngModel required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col">
-                                <input type="button" class="btn btn-lg btn-block btn-dark border-light"
-                                    value="Calculate Now">
+                                <button type="submit"
+                                    class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Send
+                                    Now</button>
                             </div>
                         </div>
                     </form>

@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -9,11 +10,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class MainscreenComponent {
 
-  constructor(private el: ElementRef, private router: Router) { }
+  constructor(private el: ElementRef, private router: Router, private authService: AuthService) { }
   activeMenuItem: string | null = null;
   menuOpen = false;
 
   isNavbarCollapsed: boolean = false;
+  @ViewChild('connectForm') connectForm!: NgForm;
 
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
@@ -21,6 +23,16 @@ export class MainscreenComponent {
 
   admin() {
     this.router.navigate(['/admin'])
+  }
+
+  connect(item: any) {
+    if (!this.connectForm.valid) {
+      alert('Please enter your details')
+    }
+    else {
+      item = { ...item, message: 'This mail is for testing purpose' }
+      this.authService.sendMail(item);
+    }
   }
 
   scrollTo(section: string): void {
