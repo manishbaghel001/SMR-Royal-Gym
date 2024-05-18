@@ -3,8 +3,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { User } from 'firebase/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-
 @Injectable({
     providedIn: 'root',
 })
@@ -15,7 +13,7 @@ export class AuthService {
     user = this.userSubject.asObservable();
     @Output() valueEmitter = new EventEmitter<string>();
     private inputValueSubject = new BehaviorSubject<boolean>(false);
-    constructor(private afAuth: AngularFireAuth, private router: Router, private http: HttpClient) {
+    constructor(private afAuth: AngularFireAuth, private router: Router) {
         this.afAuth.authState.subscribe(user => {
             this.userSubject.next(user);
         });
@@ -108,7 +106,4 @@ export class AuthService {
         });
     }
 
-    sendMail(body) {
-        this.http.post('https://tasksapi-production-96eb.up.railway.app/api/mailer', body)
-    }
 }
