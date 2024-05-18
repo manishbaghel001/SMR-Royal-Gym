@@ -3,7 +3,6 @@ import { DataService } from 'src/app/services/database';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { NgForm } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
-import { Table } from 'primeng/table';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -35,30 +34,14 @@ export class TableComponent implements OnInit {
   selectedFile: File | null = null;
   showLoader: boolean = false;
   searchValue: string | undefined;
+  loading: boolean = true;
 
   @ViewChild('userForm') userForm!: NgForm;
 
   constructor(private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
-
-  clear(table: Table) {
-    table.clear();
-    this.searchValue = ''
-  }
-
-  search(table: Table) {
-    // console.log(table, "klklk");
-  }
-
   ngOnInit() {
     this.reset()
-  }
-
-  onEdit(uid) {
-    this.showLoader = true
-    let user = this.users.find(user => user.uid === uid)
-    this.dataService.setData(uid, user)
-    this.showLoader = false
   }
 
   removeFile(uid) {
@@ -128,6 +111,7 @@ export class TableComponent implements OnInit {
   }
   reset() {
     this.showLoader = true
+    this.loading = true;
     this.dataService.getData()
       .subscribe(data => {
         this.users = data;
@@ -135,7 +119,8 @@ export class TableComponent implements OnInit {
           ele['package'] = this.packageId.find((id => id['code'] == ele['package']))['name'];
         });
         this.pendingFeeUsers = this.users.filter(object => object.culprit);
-        this.showLoader = false
+        this.loading = false;
+        this.showLoader = false;
       });
   }
 
@@ -209,7 +194,6 @@ export class TableComponent implements OnInit {
       this.dataService.uploadImage(this.selectedFile, this.uid).subscribe(
         status => {
           if (status === 'completed') {
-            // window.location.reload();
             this.reset()
             this.visible = false
             this.userForm.resetForm();

@@ -1,16 +1,18 @@
 <p-toast />
 <p-confirmDialog />
-<div class="header">
+<div class="theme">
+    <div class="header">
+        <div>
+            <i class="pi pi-th-large"></i>
+            <span class="ml-4 tasksBoard">Admin Panel</span>
+        </div>
+        <div class="flex justify-content-end gap-3">
+            <p-button size="small" (click)="mainScreen()" [outlined]="true" severity="info" [raised]="true"
+                label="Main Screen" />
+            <p-button size="small" (click)="logout($event)" severity="danger" [raised]="true" label="Log Out" />
+        </div>
+    </div>
     <div>
-        <i class="pi pi-th-large"></i>
-        <span class="ml-4 tasksBoard">Admin Panel</span>
+        <app-table></app-table>
     </div>
-    <div class="profile">
-        <p-button class="mr-4" size="small" (click)="mainScreen()" [outlined]="true" [raised]="true"
-            label="Main Screen" />
-        <p-button size="small" (click)="logout($event)" severity="danger" [raised]="true" label="Log Out" />
-    </div>
-</div>
-<div>
-    <app-table></app-table>
 </div>

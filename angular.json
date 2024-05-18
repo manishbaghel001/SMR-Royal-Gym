@@ -39,7 +39,7 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/assets/src/flaticon.css",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/themes/md-dark-indigo/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeflex/primeflex.css"
             ],

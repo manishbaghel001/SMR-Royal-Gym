@@ -21,6 +21,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { TableComponent } from './table/table.component';
+import { CardModule } from 'primeng/card';
 @NgModule({
   declarations: [
     AdminboardComponent,
@@ -45,7 +46,8 @@ import { TableComponent } from './table/table.component';
     CalendarModule,
     ProgressSpinnerModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    CardModule
   ],
   providers: [MessageService, ConfirmationService],
 })

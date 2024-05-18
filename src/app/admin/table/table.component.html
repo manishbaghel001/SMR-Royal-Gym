@@ -3,425 +3,220 @@
     <p-progressSpinner class="p-progress-spinner-circle" ariaLabel="loading" strokeWidth="3"
         animationDuration="1s"></p-progressSpinner>
 </div>
-<div class="card ml-5 mt-5 mr-5">
+
+<!-- Add New User Pop Up -->
+<p-dialog header="Add User" [modal]="true" [(visible)]="visible" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '55vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+    <form #userForm="ngForm" (ngSubmit)="addUser(userForm.value)">
+        <div class="flex flex-wrap">
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="id" class="font-semibold w-6rem">ID</label>
+                <input pInputText id="id" class="flex-auto" autocomplete="off" name="id" [(ngModel)]="userdata.id"
+                    required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="name" class="font-semibold w-6rem">Name</label>
+                <input pInputText id="name" class="flex-auto" autocomplete="off" name="name" [(ngModel)]="userdata.name"
+                    required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="phone" class="font-semibold w-6rem">Phone No.</label>
+                <input pInputText id="phone" class="flex-auto" autocomplete="off" name="phone"
+                    [(ngModel)]="userdata.phone" required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="aadhar" class="font-semibold w-9rem ">Aadhar Card No.</label>
+                <input pInputText id="aadhar" class="flex-auto" autocomplete="off" name="aadhar"
+                    [(ngModel)]="userdata.aadhar" required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="address" class="font-semibold w-6rem">Address</label>
+                <input pInputText id="address" class="flex-auto" autocomplete="off" name="address"
+                    [(ngModel)]="userdata.address" required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="doj" class="font-semibold w-9rem">Date Of Joining</label>
+                <p-calendar [showIcon]="true" name="doj" inputId="doj" [showOnFocus]="false" dateFormat="dd/mm/yy"
+                    required id="doj" class="flex-auto" autocomplete="off" [(ngModel)]="dojDate"
+                    [showButtonBar]="true" />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="advance" class="font-semibold w-6rem">Advance</label>
+                <input pInputText id="advance" class="flex-auto" autocomplete="off" name="advance"
+                    [(ngModel)]="userdata.advance" required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="fee" class="font-semibold w-6rem">Fee</label>
+                <input pInputText id="fee" class="flex-auto" autocomplete="off" name="fee" [(ngModel)]="userdata.fee"
+                    required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="feedate" class="font-semibold w-6rem"> Fee Date </label>
+                <p-calendar [showIcon]="true" name="feedate" inputId="feedate" [showOnFocus]="false"
+                    dateFormat="dd/mm/yy" required id="feedate" class="flex-auto" autocomplete="off"
+                    [(ngModel)]="feeDate" [showButtonBar]="true" />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="package" class="font-semibold w-6rem">Package</label>
+                <p-dropdown [options]="packageId" id="package" class="flex-auto" autocomplete="off" name="package"
+                    [(ngModel)]="userdata.package" optionLabel="name" [showClear]="true" placeholder="Select a Package"
+                    required />
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-3 mb-5">
+            <label for="photo" class="font-semibold w-6rem">Photo</label>
+
+            <div class="card flex justify-content-start">
+                <div *ngIf="removeImageHide" class="gap-3">
+                    <p-image class="flex" [src]="getUniqueImageUrl(userdata.uid)" [alt]="userdata.name" width="100"
+                        [preview]="true" class="shadow-4" />
+                    <p-button label="Remove File" class="ml-5" (click)="removeFile(userdata.uid)"></p-button>
+                </div>
+                <p-fileUpload name="demo[]" *ngIf="!removeImageHide" (onSelect)="onFileSelect($event)" [auto]="false"
+                    accept="image/*" maxFileSize="1000000">
+                    <ng-template pTemplate="content">
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+        </div>
+
+        <div class="flex justify-content-end gap-3">
+            <p-button label="Cancel" severity="secondary" (click)="cancel()" />
+            <p-button *ngIf="updateBtnHdn" label="Save" type="submit" />
+            <p-button *ngIf="!updateBtnHdn" label="Update" type="submit" />
+        </div>
+    </form>
+</p-dialog>
+
+<div class="m-4 mb-0 pb-4">
 
     <!-- New User -->
     <div class="flex justify-content-end gap-3 mb-4">
-        <p-button (click)="newUser()" severity="success" [raised]="true" label="Add New User" />
-        <p-button *ngIf="!userTableHdn" (click)="allUser()" severity="info" [raised]="true" label="All Users" />
-        <p-button *ngIf="userTableHdn" (click)="feePendindUser()" severity="danger" [raised]="true"
-            label="Pending Fee Users" />
+        <p-button *ngIf="!userTableHdn" size="small" (click)="allUser()" severity="info" [raised]="true"
+            label="All Customers" />
+        <p-button *ngIf="userTableHdn" size="small" (click)="feePendindUser()" severity="danger" [raised]="true"
+            label="Pending Fee Customers" />
+        <p-button (click)="newUser()" size="small" severity="success" [raised]="true" label="Add New Customer" />
     </div>
-
-    <!-- Add New User Pop Up -->
-    <p-dialog header="Add User" [modal]="true" [(visible)]="visible"
-        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '55vw' }" [draggable]="false"
-        [resizable]="false" [maximizable]="true">
-        <form #userForm="ngForm" (ngSubmit)="addUser(userForm.value)">
-            <div class="flex flex-wrap">
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="id" class="font-semibold w-6rem">ID</label>
-                    <input pInputText id="id" class="flex-auto" autocomplete="off" name="id" [(ngModel)]="userdata.id"
-                        required />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="name" class="font-semibold w-6rem">Name</label>
-                    <input pInputText id="name" class="flex-auto" autocomplete="off" name="name"
-                        [(ngModel)]="userdata.name" required />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="phone" class="font-semibold w-6rem">Phone No.</label>
-                    <input pInputText id="phone" class="flex-auto" autocomplete="off" name="phone"
-                        [(ngModel)]="userdata.phone" required />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="aadhar" class="font-semibold w-9rem ">Aadhar Card No.</label>
-                    <input pInputText id="aadhar" class="flex-auto" autocomplete="off" name="aadhar"
-                        [(ngModel)]="userdata.aadhar" required />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="address" class="font-semibold w-6rem">Address</label>
-                    <input pInputText id="address" class="flex-auto" autocomplete="off" name="address"
-                        [(ngModel)]="userdata.address" required />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="doj" class="font-semibold w-9rem">Date Of Joining</label>
-                    <p-calendar [showIcon]="true" name="doj" inputId="doj" [showOnFocus]="false" dateFormat="dd/mm/yy"
-                        required id="doj" class="flex-auto" autocomplete="off" [(ngModel)]="dojDate"
-                        [showButtonBar]="true" />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="advance" class="font-semibold w-6rem">Advance</label>
-                    <input pInputText id="advance" class="flex-auto" autocomplete="off" name="advance"
-                        [(ngModel)]="userdata.advance" required />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="fee" class="font-semibold w-6rem">Fee</label>
-                    <input pInputText id="fee" class="flex-auto" autocomplete="off" name="fee"
-                        [(ngModel)]="userdata.fee" required />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="feedate" class="font-semibold w-6rem"> Fee Date </label>
-                    <p-calendar [showIcon]="true" name="feedate" inputId="feedate" [showOnFocus]="false"
-                        dateFormat="dd/mm/yy" required id="feedate" class="flex-auto" autocomplete="off"
-                        [(ngModel)]="feeDate" [showButtonBar]="true" />
-                </div>
-                <div class="flex flex-column gap-3 mb-5 mr-4">
-                    <label for="package" class="font-semibold w-6rem">Package</label>
-                    <p-dropdown [options]="packageId" id="package" class="flex-auto" autocomplete="off" name="package"
-                        [(ngModel)]="userdata.package" optionLabel="name" [showClear]="true"
-                        placeholder="Select a Package" required />
-                </div>
-            </div>
-
-            <div class="flex flex-column gap-3 mb-5">
-                <label for="photo" class="font-semibold w-6rem">Photo</label>
-
-                <div class="card flex justify-content-start">
-                    <div *ngIf="removeImageHide" class="gap-3">
-                        <p-image class="flex" [src]="getUniqueImageUrl(userdata.uid)" [alt]="userdata.name" width="100"
-                            [preview]="true" class="shadow-4" />
-                        <p-button label="Remove File" class="ml-5" (click)="removeFile(userdata.uid)"></p-button>
-                    </div>
-                    <p-fileUpload name="demo[]" *ngIf="!removeImageHide" (onSelect)="onFileSelect($event)"
-                        [auto]="false" accept="image/*" maxFileSize="1000000">
-                        <ng-template pTemplate="content">
-                        </ng-template>
-                    </p-fileUpload>
-                </div>
-            </div>
-
-            <div class="flex justify-content-end gap-3">
-                <p-button label="Cancel" severity="secondary" (click)="cancel()" />
-                <p-button *ngIf="updateBtnHdn" label="Save" type="submit" />
-                <p-button *ngIf="!updateBtnHdn" label="Update" type="submit" />
-            </div>
-        </form>
-    </p-dialog>
 
     <!-- User Table -->
-    <div class="card">
-        <p-table *ngIf="userTableHdn" #dt1 [value]="users" dataKey="id" [paginator]="true" [rows]="5"
+    <p-card *ngIf="userTableHdn" styleClass="p-card-shadow">
+        <p-table class="-mt-6" #dt [value]="users" dataKey="id" [paginator]="true" [rows]="5" [rowHover]="true"
             [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
-            [showCurrentPageReport]="true" [globalFilterFields]="['name', 'product.name', 'id', 'product.id']"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-            <ng-template pTemplate="caption" dataKey="id">
-
-            </ng-template>
-            <!-- <ng-template pTemplate="caption">
-                <div class="flex">
-                    <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
-                    <span class="p-input-icon-left ml-auto">
+            [loading]="loading" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+            [globalFilterFields]="['id','name','phone','aadhar']">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between -mt-4">
+                    List of Customers
+                    <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" [(ngModel)]="searchValue" (input)="search(dt1)"
-                            placeholder="Search keyword" />
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                            placeholder="Global Search" />
                     </span>
                 </div>
-            </ng-template> -->
-            <ng-template pTemplate="caption">
-                <div class="flex align-items-center justify-content-between -mt-3 -mb-3">
-                    All Users
-                    <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text" />
-                </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="id" style="width:auto">
-                        ID No <p-sortIcon field="id" />
+                    <th pSortableColumn="id" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Id No
+                            <p-sortIcon field="id"></p-sortIcon>
+                            <p-columnFilter type="text" field="id" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="name" style="width:auto">
-                        Name <p-sortIcon field="name" />
+                    <th pSortableColumn="name" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Name
+                            <p-sortIcon field="name"></p-sortIcon>
+                            <p-columnFilter type="text" field="name" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="phone" style="width:auto">
-                        Phone Number <p-sortIcon field="phone" />
+                    <th pSortableColumn="phone" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Phone Number
+                            <p-sortIcon field="phone"></p-sortIcon>
+                            <p-columnFilter type="text" field="phone" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="aadhar" style="width:auto">
-                        Aadhar Card <p-sortIcon field="aadhar" />
+                    <th pSortableColumn="aadhar" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Aadhar Card
+                            <p-sortIcon field="aadhar"></p-sortIcon>
+                            <p-columnFilter type="text" field="aadhar" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="address" style="width:auto">
-                        Address <p-sortIcon field="address" />
+                    <th pSortableColumn="address" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Address
+                            <p-sortIcon field="address"></p-sortIcon>
+                            <p-columnFilter type="text" field="address" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="doj" style="width:auto">
-                        DOJ <p-sortIcon field="doj" />
+                    <th pSortableColumn="doj" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Date of joining
+                            <p-sortIcon field="doj"></p-sortIcon>
+                            <p-columnFilter type="text" field="doj" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="advance" style="width:auto">
-                        Advance <p-sortIcon field="advance" />
+                    <th pSortableColumn="advance" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Advance
+                            <p-sortIcon field="advance"></p-sortIcon>
+                            <p-columnFilter type="text" field="advance" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="fee" style="width:auto">
-                        Fee <p-sortIcon field="fee" />
+                    <th pSortableColumn="fee" style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Fee
+                            <p-sortIcon field="fee"></p-sortIcon>
+                            <p-columnFilter type="text" field="fee" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="photo" style="width:auto">
-                        Photo <p-sortIcon field="photo" />
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Photo
+                        </div>
                     </th>
-                    <th style="width:auto">
-                        Action
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Action
+                        </div>
                     </th>
                 </tr>
-                <tr>
-                    <th>
-                        <p-columnFilter type="text" field="id" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="name" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="phone" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="aadhar" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="address" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="doj" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="advance" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="fee" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <!-- <p-columnFilter type="text" field="photo" [showClearButton]="true" /> -->
-                    </th>
-                    <th>
-                        <!-- <p-columnFilter type="boolean" field="photo" /> -->
-                    </th>
-                </tr>
-
             </ng-template>
             <ng-template pTemplate="body" let-product let-editing="editing">
                 <tr>
-                    <!-- <td [pEditableColumn]="product.id" pEditableColumnField="id"> -->
-                    <td pEditableColumnField="id">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" (keydown.enter)="onEdit(product.uid)"
-                                    [(ngModel)]="product.id" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.id }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="name">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="product.name"
-                                    (keydown.enter)="onEdit(product.uid)" required />
-                            </ng-template>
-
-                            <ng-template pTemplate="output">
-                                {{product.name}}
-                                <!-- <p-tag [value]="product.name" [severity]="getSeverity(product)" /> -->
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="phone">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText [(ngModel)]="product.phone" (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.phone }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="aadhar">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="product.aadhar"
-                                    (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.aadhar }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="address">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="product.address"
-                                    (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.address }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="doj">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="product.doj"
-                                    (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.doj }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="advance">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="product.advance"
-                                    (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.advance | currency : 'INR' }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="fee">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="product.fee"
-                                    (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                <div
-                                    [ngClass]="{'feeDue': product.fee === 0, 'lowFee': (product.fee > 0 && product.fee < 10),'onFee': product.fee > 10}">
-                                    {{ product.fee | currency : 'INR' }}
-                                </div>
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="photo">
-                        <p-image [src]="getUniqueImageUrl(product.uid)" [alt]="product.name" width="100"
-                            [preview]="true" class="shadow-4" />
+                    <td>
+                        {{ product.id }}
                     </td>
                     <td>
-                        <div class="flex align-items-center justify-content-between">
-                            <p-button class="mr-4" size="large" icon="pi pi-user-edit" [text]="true" [raised]="true"
-                                severity="info" (click)="edit(product)" />
-                            <p-button size="large" icon="pi pi-trash" [text]="true" [raised]="true" severity="danger"
-                                (click)="delete($event, product.uid)" />
+                        {{ product.name }}
+                    </td>
+                    <td>
+                        {{ product.phone }}
+                    </td>
+                    <td>
+                        {{ product.aadhar }}
+                    </td>
+                    <td>
+                        {{ product.address }}
+                    </td>
+                    <td>
+                        {{ product.doj }}
+                    </td>
+                    <td>
+                        {{ product.advance | currency : 'INR' }}
+                    </td>
+                    <td>
+                        <div
+                            [ngClass]="{'feeDue': product.fee === 0, 'lowFee': (product.fee > 0 && product.fee < 10),'onFee': product.fee > 10}">
+                            {{ product.fee | currency : 'INR' }}
                         </div>
                     </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
-
-    <!-- Fee Table -->
-    <div class="card">
-        <p-table *ngIf="!userTableHdn" [value]="pendingFeeUsers" dataKey="id" [paginator]="true" [rows]="5"
-            [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
-            [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-            <ng-template pTemplate="caption">
-                <div class="flex align-items-center justify-content-between -mt-3 -mb-3">
-                    Pending Fee Table
-                    <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text" />
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="id" style="width:auto">
-                        ID No <p-sortIcon field="id" />
-                    </th>
-                    <th pSortableColumn="name" style="width:auto">
-                        Name <p-sortIcon field="name" />
-                    </th>
-                    <th pSortableColumn="phone" style="width:auto">
-                        Phone Number <p-sortIcon field="phone" />
-                    </th>
-                    <th pSortableColumn="feedate" style="width:auto">
-                        Fee Date <p-sortIcon field="feedate" />
-                    </th>
-                    <th pSortableColumn="package" style="width:auto">
-                        Package <p-sortIcon field="package" />
-                    </th>
-                    <th pSortableColumn="photo" style="width:auto">
-                        Photo <p-sortIcon field="photo" />
-                    </th>
-                    <th style="width:auto">
-                        Action
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <p-columnFilter type="text" field="id" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="name" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="phone" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="feedate" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="package" [showClearButton]="true" />
-                    </th>
-                    <th>
-                        <!-- <p-columnFilter type="text" field="photo" [showClearButton]="true" /> -->
-                    </th>
-                    <th>
-                        <!-- <p-columnFilter type="boolean" field="photo" /> -->
-                    </th>
-                </tr>
-
-            </ng-template>
-            <ng-template pTemplate="body" let-product let-editing="editing">
-                <tr>
-                    <!-- <td [pEditableColumn]="product.id" pEditableColumnField="id"> -->
-                    <td pEditableColumnField="id">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" (keydown.enter)="onEdit(product.uid)"
-                                    [(ngModel)]="product.id" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.id }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="name">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="product.name"
-                                    (keydown.enter)="onEdit(product.uid)" required />
-                            </ng-template>
-
-                            <ng-template pTemplate="output">
-                                {{product.name}}
-                                <!-- <p-tag [value]="product.name" [severity]="getSeverity(product)" /> -->
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="phone">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText [(ngModel)]="product.phone" (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.phone }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="feedate">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText [(ngModel)]="product.feedate" (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.feedate }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="package">
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText [(ngModel)]="product.package" (keydown.enter)="onEdit(product.uid)" />
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{ product.package }}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td pEditableColumnField="photo">
+                    <td>
                         <p-image [src]="getUniqueImageUrl(product.uid)" [alt]="product.name" width="100"
                             [preview]="true" class="shadow-4" />
                     </td>
@@ -435,7 +230,123 @@
                     </td>
                 </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">
+                        <div class="flex justify-content-center align-items-center">
+                            No customers found.
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
         </p-table>
-    </div>
-
+    </p-card>
+    <!-- Fee Table -->
+    <p-card *ngIf="!userTableHdn" styleClass="p-card-shadow">
+        <p-table #dtFee [value]="pendingFeeUsers" dataKey="id" [rowHover]="true" [paginator]="true" [rows]="5"
+            [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }" [first]="first"
+            [showCurrentPageReport]="true" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" class="p-element"
+            [filterDelay]="0" [globalFilterFields]="['id','name','phone','feedate', 'package']">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between -mt-4">
+                    Pending fee Customers
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dtFee.filterGlobal($event.target['value'], 'contains')"
+                            placeholder="Global Search" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="id" style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Id No
+                            <p-sortIcon field="id"></p-sortIcon>
+                            <p-columnFilter type="text" field="id" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="name" style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Name
+                            <p-sortIcon field="name"></p-sortIcon>
+                            <p-columnFilter type="text" field="name" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="phone" style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Phone Number
+                            <p-sortIcon field="phone"></p-sortIcon>
+                            <p-columnFilter type="text" field="phone" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="feedate" style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Fee Date
+                            <p-sortIcon field="feedate"></p-sortIcon>
+                            <p-columnFilter type="text" field="feedate" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="package" style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Package
+                            <p-sortIcon field="package"></p-sortIcon>
+                            <p-columnFilter type="text" field="package" display="menu" class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Photo
+                        </div>
+                    </th>
+                    <th style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Action
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-editing="editing">
+                <tr>
+                    <td>
+                        {{ product.id }}
+                    </td>
+                    <td>
+                        {{ product.name }}
+                    </td>
+                    <td>
+                        {{ product.phone }}
+                    </td>
+                    <td>
+                        {{ product.feedate }}
+                    </td>
+                    <td>
+                        {{ product.package }}
+                    </td>
+                    <td>
+                        <p-image [src]="getUniqueImageUrl(product.uid)" [alt]="product.name" width="100"
+                            [preview]="true" class="shadow-4" />
+                    </td>
+                    <td>
+                        <div class="flex align-items-center justify-content-between">
+                            <p-button size="large" icon="pi pi-user-edit" [text]="true" [raised]="true" severity="info"
+                                (click)="edit(product)" />
+                            <p-button size="large" icon="pi pi-trash" [text]="true" [raised]="true" severity="danger"
+                                (click)="delete($event, product.uid)" />
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">
+                        <div class="flex justify-content-center align-items-center">
+                            No customers found.
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
 </div>
