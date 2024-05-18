@@ -18,6 +18,19 @@ export class MainscreenComponent {
 
   isNavbarCollapsed: boolean = false;
   @ViewChild('connectForm') connectForm!: NgForm;
+  currentIndex = 0;
+  items = [
+    { src: '../../../assets/carousel-1.jpg', alt: 'Image 1', title: 'Best Gym In Town', subtitle: 'Gym & Fitness Center' },
+    { src: '../../../assets/carousel-2.jpg', alt: 'Image 2', title: 'Get Body In Shape', subtitle: 'Gym & Fitness Center' }
+  ];
+
+  next() {
+    this.currentIndex = (this.currentIndex + 1) % this.items.length;
+  }
+
+  prev() {
+    this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
+  }
 
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
