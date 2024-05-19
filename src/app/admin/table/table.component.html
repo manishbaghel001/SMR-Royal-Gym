@@ -5,7 +5,7 @@
 </div>
 
 <!-- Add New User Pop Up -->
-<p-dialog header="Add User" [modal]="true" [(visible)]="visible" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+<p-dialog header="Add Client" [modal]="true" [(visible)]="visible" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
     [style]="{ width: '55vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
     <form #userForm="ngForm" (ngSubmit)="addUser(userForm.value)">
         <div class="flex flex-wrap">
@@ -94,10 +94,10 @@
     <!-- New User -->
     <div class="flex justify-content-end gap-3 mb-4">
         <p-button *ngIf="!userTableHdn" size="small" (click)="allUser()" severity="info" [raised]="true"
-            label="All Customers" />
+            label="All Clients" />
         <p-button *ngIf="userTableHdn" size="small" (click)="feePendindUser()" severity="danger" [raised]="true"
-            label="Pending Fee Customers" />
-        <p-button (click)="newUser()" size="small" severity="success" [raised]="true" label="Add New Customer" />
+            label="Pending Fee Clients" />
+        <p-button (click)="newUser()" size="small" severity="success" [raised]="true" label="Add New Client" />
     </div>
 
     <!-- User Table -->
@@ -108,8 +108,8 @@
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
             [globalFilterFields]="['id','name','phone','aadhar']">
             <ng-template pTemplate="caption">
-                <div class="flex align-items-center justify-content-between -mt-4">
-                    List of Customers
+                <div class="flex align-items-center justify-content-between -mt-5">
+                    List of Clients
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
@@ -156,7 +156,7 @@
                     </th>
                     <th pSortableColumn="doj" style="min-width: auto">
                         <div class="flex justify-content-between align-items-center">
-                            Date of joining
+                            Date of Joining
                             <p-sortIcon field="doj"></p-sortIcon>
                             <p-columnFilter type="text" field="doj" display="menu" class="ml-auto"></p-columnFilter>
                         </div>
@@ -234,7 +234,7 @@
                 <tr>
                     <td colspan="8">
                         <div class="flex justify-content-center align-items-center">
-                            No customers found.
+                            No clients found.
                         </div>
                     </td>
                 </tr>
@@ -249,8 +249,8 @@
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" class="p-element"
             [filterDelay]="0" [globalFilterFields]="['id','name','phone','feedate', 'package']">
             <ng-template pTemplate="caption">
-                <div class="flex align-items-center justify-content-between -mt-4">
-                    Pending fee Customers
+                <div class="flex align-items-center justify-content-between -mt-5">
+                    Pending Fee Clients
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dtFee.filterGlobal($event.target['value'], 'contains')"
@@ -342,7 +342,7 @@
                 <tr>
                     <td colspan="8">
                         <div class="flex justify-content-center align-items-center">
-                            No customers found.
+                            No clients found.
                         </div>
                     </td>
                 </tr>

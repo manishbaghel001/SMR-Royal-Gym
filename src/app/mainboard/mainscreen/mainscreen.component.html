@@ -357,51 +357,26 @@
                 <div class="d-flex align-items-center px-3" style="min-height: 450px;">
                     <div id="carouselId" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselId" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselId" data-slide-to="1"></li>
-                            <li data-target="#carouselId" data-slide-to="2"></li>
+                            <li data-target="#carouselId" data-slide-to="0" [class.active]="currentIndexTest==0"
+                                (click)="currentIndexTest=0"></li>
+                            <li data-target="#carouselId" data-slide-to="1" [class.active]="currentIndexTest==1"
+                                (click)="currentIndexTest=1"></li>
+                            <li data-target="#carouselId" data-slide-to="2" [class.active]="currentIndexTest==2"
+                                (click)="currentIndexTest=2"></li>
                         </ol>
                         <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
+                            <div *ngFor="let item of itemsTest; let i = index" class="carousel-item"
+                                [class.active]="i === currentIndexTest">
                                 <div class="d-flex align-items-center mb-4 text-white">
-                                    <img width="80" height="80" class="rounded-circle bg-dark p-2"
-                                        src="../../../assets/testimonial-1.jpg" alt="Image">
+                                    <img width="80" height="80" class="rounded-circle bg-dark p-2" [src]="item.src"
+                                        [alt]="item.alt">
                                     <div class="pl-4">
-                                        <h4 class="text-primary">Client Name</h4>
-                                        <p class="m-0">Profession</p>
+                                        <h4 class="text-primary">{{item.name}}</h4>
+                                        <p class="m-0">{{item.prof}}</p>
                                     </div>
                                 </div>
                                 <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
-                                    Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod
-                                    clita lorem. Dolores tempor voluptua ipsum sanctus clita
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-flex align-items-center mb-4 text-white">
-                                    <img width="80" height="80" class="rounded-circle bg-dark p-2"
-                                        src="../../../assets/testimonial-2.jpg" alt="Image">
-                                    <div class="pl-4">
-                                        <h4 class="text-primary">Client Name</h4>
-                                        <p class="m-0">Profession</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
-                                    Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod
-                                    clita lorem. Dolores tempor voluptua ipsum sanctus clita
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-flex align-items-center mb-4 text-white">
-                                    <img width="80" height="80" class="rounded-circle bg-dark p-2"
-                                        src="../../../assets/testimonial-3.jpg" alt="Image">
-                                    <div class="pl-4">
-                                        <h4 class="text-primary">Client Name</h4>
-                                        <p class="m-0">Profession</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
-                                    Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod
-                                    clita lorem. Dolores tempor voluptua ipsum sanctus clita
+                                    {{item.desc}}
                                 </div>
                             </div>
                         </div>
@@ -490,7 +465,7 @@
                 velankanni tech park, Bengaluru,
                 Karnataka 560100</p>
             <p><i class="fa fa-phone-alt mr-2"></i>+91 99009 00094</p>
-            <!-- <p><i class="fa fa-envelope mr-2"></i>info@example.com</p> -->
+            <p><i class="fa fa-envelope mr-2"></i>Smrroyalgym&#64;gmail.com</p>
             <div class="d-flex justify-content-start mt-4">
                 <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 40px; height: 40px;"
                     href="#"><i class="fab fa-twitter"></i></a>

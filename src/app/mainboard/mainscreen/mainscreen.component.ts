@@ -19,9 +19,17 @@ export class MainscreenComponent {
   isNavbarCollapsed: boolean = false;
   @ViewChild('connectForm') connectForm!: NgForm;
   currentIndex = 0;
+  currentIndexTest = 0;
+
   items = [
     { src: '../../../assets/carousel-1.jpg', alt: 'Image 1', title: 'Best Gym In Town', subtitle: 'Gym & Fitness Center' },
     { src: '../../../assets/carousel-2.jpg', alt: 'Image 2', title: 'Get Body In Shape', subtitle: 'Gym & Fitness Center' }
+  ];
+
+  itemsTest = [
+    { src: '../../../assets/testimonial-1.jpg', alt: 'Image 1', name: 'Manish', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
+    { src: '../../../assets/testimonial-2.jpg', alt: 'Image 2', name: 'John', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
+    { src: '../../../assets/testimonial-3.jpg', alt: 'Image 2', name: 'Client Name', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
   ];
 
   next() {
