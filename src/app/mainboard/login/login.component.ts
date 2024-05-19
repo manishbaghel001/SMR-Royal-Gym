@@ -27,6 +27,11 @@ export class LoginComponent implements OnInit {
     this.display = 'none'
   }
 
+  verified() {
+    this.display = 'none';
+    this.displayVerify = 'none';
+  }
+
   forgotPasswordMail() {
     if (this.email == '') {
       alert('Please enter your email.')
