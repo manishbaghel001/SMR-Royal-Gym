@@ -48,13 +48,13 @@ export class MainscreenComponent {
     this.router.navigate(['/admin'])
   }
 
-  connect(item: any) {
+  connect(form: any) {
     if (!this.connectForm.valid) {
       alert('Please enter your details')
     }
     else {
       this.authService.setLoaderValue(true)
-      this.http.post(AppConfig.apiUrl + '/api/mailer/', item)
+      this.http.post(AppConfig.apiUrl + '/api/mailer/', form)
         .subscribe({
           next: (response) => {
             if (response['status']) {
