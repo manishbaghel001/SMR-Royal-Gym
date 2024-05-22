@@ -3,6 +3,7 @@ import { DataService } from 'src/app/services/database';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { NgForm } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
+import { finalize, forkJoin, of } from 'rxjs';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -18,6 +19,7 @@ export class TableComponent implements OnInit {
   visible: boolean = false;
   userTableHdn: boolean = false;
   updateBtnHdn: boolean = false;
+  editMode: boolean = false
 
   packageId = [
     { name: '1 Months', code: 1 },
@@ -35,23 +37,38 @@ export class TableComponent implements OnInit {
   showLoader: boolean = false;
   searchValue: string | undefined;
   loading: boolean = true;
+  imageUploaded: boolean = false;
+  fileUpload: any;
 
   @ViewChild('userForm') userForm!: NgForm;
 
-  constructor(private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  dateTime = new Date();
+
+  constructor(private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService) {
+    this.dateTime.setDate(this.dateTime.getDate());
+  }
 
   ngOnInit() {
     this.reset()
   }
 
   removeFile(uid) {
-    this.dataService.removeImage(uid);
-    this.removeImageHide = false
+    this.dataService.removeImage(uid).subscribe({
+      next: (res) => {
+        this.removeImageHide = false
+        console.log('Removing Image Sucessfull');
+      },
+      error: (error) => {
+        console.log(error, "Remove Image Failed Error");
+        alert('Removing Image failed')
+      }
+    })
   }
 
-  edit(product) {
+  edit(product, pendingMode?) {
     this.feeDate = new Date(this.convertToDate(product['feedate']))
     this.dojDate = new Date(this.convertToDate(product['doj']))
+    this.editMode = pendingMode;
 
     product = { ...product, package: this.packageId.find((id => id['name'] == product['package'])) };
     this.userdata = product
@@ -59,6 +76,7 @@ export class TableComponent implements OnInit {
     this.removeImageHide = true;
     this.visible = true;
     this.selectedFile = null;
+    this.fileUpload.clear();
   }
 
   delete(event: Event, uid) {
@@ -74,12 +92,25 @@ export class TableComponent implements OnInit {
 
       accept: () => {
         this.showLoader = true
-        this.dataService.removeImage(uid)
-        this.dataService.deleteData(uid)
-        this.showLoader = false
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
+        forkJoin({
+          deleteData: this.dataService.deleteData(uid),
+          removeImage: this.dataService.removeImage(uid)
+        }).subscribe({
+          next: (results) => {
+            this.messageService.add({ severity: 'error', summary: 'Confirmed', detail: 'Record deleted' });
+          },
+          error: (error) => {
+            this.showLoader = false;
+            console.error('Operation failed', error);
+            alert('Operation failed');
+          },
+          complete: () => {
+            this.showLoader = false;
+          }
+        });
       },
       reject: () => {
+        this.showLoader = false;
         this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
       }
     });
@@ -109,18 +140,26 @@ export class TableComponent implements OnInit {
   isFirstPage(): boolean {
     return this.users ? this.first === 0 : true;
   }
+
   reset() {
     this.showLoader = true
     this.loading = true;
     this.dataService.getData()
-      .subscribe(data => {
-        this.users = data;
-        this.users.forEach(ele => {
-          ele['package'] = this.packageId.find((id => id['code'] == ele['package']))['name'];
-        });
-        this.pendingFeeUsers = this.users.filter(object => object.culprit);
-        this.loading = false;
-        this.showLoader = false;
+      .subscribe({
+        next: (data) => {
+          this.users = data;
+          this.users.forEach(ele => {
+            ele['package'] = this.packageId.find((id => id['code'] == ele['package']))['name'];
+          });
+          this.pendingFeeUsers = this.users.filter(object => object.culprit);
+          this.loading = false;
+          this.showLoader = false;
+        },
+        error: (error) => {
+          this.showLoader = false;
+          console.log(error, "Fetch Data failed");
+          alert('Getting issues while fetching data.')
+        }
       });
   }
 
@@ -133,11 +172,15 @@ export class TableComponent implements OnInit {
     this.removeImageHide = false;
     this.selectedFile = null;
     this.uid = undefined;
+    this.editMode = false;
+    this.fileUpload.clear();
   }
 
   cancel() {
     this.visible = false
+    this.selectedFile = null;
     this.userForm.resetForm();
+    this.fileUpload.clear();
   }
 
   convertToDate(inputDateString) {
@@ -169,48 +212,75 @@ export class TableComponent implements OnInit {
   }
 
   addUser(product) {
-    this.showLoader = true;
-    if (this.userdata['uid']) {
-      this.uid = this.userdata['uid']
-    } else {
-      this.uid = uuidv4()
+
+    if (!this.userForm.valid) {
+      alert('Please fill the form completly.')
+      return;
     }
-
-    product['package'] = product['package']['code'];
-
-    const feeDateObject = new Date(this.feeDate);
-    const dojDataObject = new Date(this.dojDate);
-    const nextDateObject = new Date(this.feeDate);
-    nextDateObject.setMonth(feeDateObject.getMonth() + product.package);
-
-    product = {
-      ...product, uid: this.uid, nextFeeDate: this.convertToStrDate(nextDateObject),
-      doj: this.convertToStrDate(dojDataObject), feedate: this.convertToStrDate(feeDateObject),
-      culprit: this.isPastOrToday(this.convertToStrDate(nextDateObject))
-    }
-    this.dataService.setData(product.uid, product);
-
-    if (this.selectedFile != null) {
-      this.dataService.uploadImage(this.selectedFile, this.uid).subscribe(
-        status => {
-          if (status === 'completed') {
-            this.reset()
-            this.visible = false
-            this.userForm.resetForm();
-            this.showLoader = false
-          }
-        },
-        error => {
-          console.error('Upload failed:', error);
-          alert('Image upload failed!');
+    else {
+      if (this.userdata['uid']) {
+        this.uid = this.userdata['uid']
+      } else {
+        if (this.selectedFile == null) {
+          this.showLoader = false;
+          alert("Please select image.")
+          return;
+        } else {
+          this.uid = uuidv4()
         }
-      );
+      }
 
-    } else {
-      this.reset()
-      this.visible = false
-      this.userForm.resetForm();
-      this.showLoader = false;
+      if (this.uid) {
+        this.showLoader = true;
+
+        product['package'] = product['package']['code'];
+
+        const feeDateObject = new Date(this.feeDate);
+        const dojDataObject = new Date(this.dojDate);
+        const nextDateObject = new Date(this.feeDate);
+        nextDateObject.setMonth(feeDateObject.getMonth() + product.package);
+
+        product = {
+          ...product, uid: this.uid, nextFeeDate: this.convertToStrDate(nextDateObject),
+          doj: this.convertToStrDate(dojDataObject), feedate: this.convertToStrDate(feeDateObject),
+          culprit: this.isPastOrToday(this.convertToStrDate(nextDateObject))
+        }
+        forkJoin({
+          uploadImage: !this.imageUploaded ? (this.selectedFile != null ? this.dataService.uploadImage(this.selectedFile, this.uid) : of({})) : of({}),
+          setData: this.dataService.setData(product.uid, product)
+        })
+          .subscribe({
+            next: (results) => {
+              console.log(results, "Manish");
+
+              if (this.userdata['uid']) {
+                if (this.userdata['culprit'] != product['culprit']) {
+                  if (product['culprit'] == false) {
+                    this.messageService.add({ severity: 'success', summary: 'Confirm Fee', detail: 'Fee paid for this client' });
+                  }
+                  else if (product['culprit'] == true) {
+                    this.messageService.add({ severity: 'warn', summary: 'Fee Update', detail: 'Fee pending for this client' });
+                  }
+                } else {
+                  this.messageService.add({ severity: 'info', summary: 'Client Updated', detail: 'Client Details Updated' });
+                }
+              }
+              else {
+                this.messageService.add({ severity: 'info', summary: 'Client Added', detail: 'New Client Added' });
+              }
+              this.selectedFile = null;
+              this.visible = false;
+              this.fileUpload.clear();
+              this.userForm.resetForm();
+              this.showLoader = false;
+            },
+            error: (error) => {
+              this.showLoader = false;
+              console.error('Client add failed!', error);
+              alert('Client add failed!');
+            }
+          });
+      }
     }
   }
 
@@ -222,8 +292,9 @@ export class TableComponent implements OnInit {
     this.userTableHdn = false;
   }
 
-  onFileSelect(event: any) {
-    this.selectedFile = event.files[0];
+  onFileSelect(event: any, fileUpload) {
+    this.selectedFile = event.currentFiles.length != 0 ? event.currentFiles[0] : null;
+    this.fileUpload = fileUpload
   }
 
 }

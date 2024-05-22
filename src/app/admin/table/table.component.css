@@ -1,3 +1,23 @@
+::ng-deep .p-datepicker table td {
+    padding: 0;
+}
+
+::ng-deep .p-datepicker {
+    padding: 0;
+}
+
+::ng-deep .p-datepicker .p-datepicker-header {
+    padding: 0;
+}
+
+::ng-deep .p-datepicker .p-datepicker-buttonbar {
+    padding: 0;
+}
+
+::ng-deep .p-inputNumber {
+    width: 100%;
+}
+
 .progress-spinner {
     position: fixed;
     z-index: 9999;

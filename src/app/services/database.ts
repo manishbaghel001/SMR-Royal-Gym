@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable, Subject, finalize } from 'rxjs';
+import { Observable, Subject, catchError, finalize, from, map } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
 export class DataService {
     constructor(private firestore: AngularFirestore, private storage: AngularFireStorage) { }
 
-    getImageUrl(path: string) {
-        return this.storage.ref(path).getDownloadURL();
-    }
-
-    removeImage(path: string) {
-        return this.storage.ref(path).delete();
+    removeImage(path: string): Observable<void> {
+        return from(this.storage.ref(path).delete())
     }
 
     uploadImage(imageFile: File, path: string): Observable<string> {
@@ -43,17 +39,15 @@ export class DataService {
         return statusSubject.asObservable();
     }
 
-    setData(uid: string, data: any) {
-        this.firestore.collection('users').doc(uid).set(data, { merge: true })
-            .catch(error => console.error(error));
+    setData(uid: string, data: any): Observable<void> {
+        return from(this.firestore.collection('users').doc(uid).set(data, { merge: true }))
     }
 
-    getData() {
-        return this.firestore.collection('users').valueChanges()
+    getData(): Observable<any> {
+        return from(this.firestore.collection('users').valueChanges())
     }
 
-    deleteData(uid: string) {
-        this.firestore.collection('users').doc(uid).delete()
-            .catch(error => console.error(error));
+    deleteData(uid: string): Observable<void> {
+        return from(this.firestore.collection('users').doc(uid).delete())
     }
 }
