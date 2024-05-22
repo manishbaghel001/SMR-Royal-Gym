@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AppConfig } from 'src/config';
 
@@ -20,6 +21,7 @@ export class MainscreenComponent {
   @ViewChild('connectForm') connectForm!: NgForm;
   currentIndex = 0;
   currentIndexTest = 0;
+  connectSub: Subscription;
 
   items = [
     { src: '../../../assets/carousel-1.jpg', alt: 'Image 1', title: 'Best Gym In Town', subtitle: 'Gym & Fitness Center' },
@@ -31,6 +33,12 @@ export class MainscreenComponent {
     { src: '../../../assets/testimonial-2.jpg', alt: 'Image 2', name: 'John', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
     { src: '../../../assets/testimonial-3.jpg', alt: 'Image 2', name: 'Client Name', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
   ];
+
+  ngOnDestroy() {
+    if (this.connectSub) {
+      this.connectSub.unsubscribe();
+    }
+  }
 
   next() {
     this.currentIndex = (this.currentIndex + 1) % this.items.length;
@@ -54,7 +62,7 @@ export class MainscreenComponent {
     }
     else {
       this.authService.setLoaderValue(true)
-      this.http.post(AppConfig.apiUrl + '/api/mailer/', form)
+      this.connectSub = this.http.post(AppConfig.apiUrl + '/api/mailer/', form)
         .subscribe({
           next: (response) => {
             if (response['status']) {

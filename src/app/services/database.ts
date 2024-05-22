@@ -41,6 +41,9 @@ export class DataService {
 
     setData(uid: string, data: any): Observable<void> {
         return from(this.firestore.collection('users').doc(uid).set(data, { merge: true }))
+            .pipe(
+                finalize(() => "Data Updated")
+            );
     }
 
     getData(): Observable<any> {

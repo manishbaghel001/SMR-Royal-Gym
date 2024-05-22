@@ -3,7 +3,7 @@ import { DataService } from 'src/app/services/database';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { NgForm } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
-import { finalize, forkJoin, of } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -39,6 +39,10 @@ export class TableComponent implements OnInit {
   loading: boolean = true;
   imageUploaded: boolean = false;
   fileUpload: any;
+  removeImage: Subscription;
+  forkJoin: Subscription;
+  getData: Subscription;
+  forkJoinAddUser: Subscription;
 
   @ViewChild('userForm') userForm!: NgForm;
 
@@ -48,12 +52,27 @@ export class TableComponent implements OnInit {
     this.dateTime.setDate(this.dateTime.getDate());
   }
 
+  ngOnDestroy() {
+    if (this.removeImage) {
+      this.removeImage.unsubscribe();
+    }
+    if (this.forkJoin) {
+      this.forkJoin.unsubscribe();
+    }
+    if (this.getData) {
+      this.getData.unsubscribe();
+    }
+    if (this.forkJoinAddUser) {
+      this.forkJoinAddUser.unsubscribe();
+    }
+  }
+
   ngOnInit() {
     this.reset()
   }
 
   removeFile(uid) {
-    this.dataService.removeImage(uid).subscribe({
+    this.removeImage = this.dataService.removeImage(uid).subscribe({
       next: (res) => {
         this.removeImageHide = false
         console.log('Removing Image Sucessfull');
@@ -92,7 +111,7 @@ export class TableComponent implements OnInit {
 
       accept: () => {
         this.showLoader = true
-        forkJoin({
+        this.forkJoin = forkJoin({
           deleteData: this.dataService.deleteData(uid),
           removeImage: this.dataService.removeImage(uid)
         }).subscribe({
@@ -144,7 +163,7 @@ export class TableComponent implements OnInit {
   reset() {
     this.showLoader = true
     this.loading = true;
-    this.dataService.getData()
+    this.getData = this.dataService.getData()
       .subscribe({
         next: (data) => {
           this.users = data;
@@ -207,8 +226,7 @@ export class TableComponent implements OnInit {
   }
 
   getUniqueImageUrl(uid: string): string {
-    const timestamp = new Date().getTime();
-    return `https://firebasestorage.googleapis.com/v0/b/srm-royal-gym.appspot.com/o/${uid}?alt=media&amp;token=70e5f4a4-0df3-4679-80af-1d981835a671&amp;t=${timestamp}`;
+    return `https://firebasestorage.googleapis.com/v0/b/srm-royal-gym.appspot.com/o/${uid}?alt=media&amp;token=70e5f4a4-0df3-4679-80af-1d981835a671&amp`;
   }
 
   addUser(product) {
@@ -245,9 +263,9 @@ export class TableComponent implements OnInit {
           doj: this.convertToStrDate(dojDataObject), feedate: this.convertToStrDate(feeDateObject),
           culprit: this.isPastOrToday(this.convertToStrDate(nextDateObject))
         }
-        forkJoin({
+        this.forkJoinAddUser = forkJoin({
           uploadImage: !this.imageUploaded ? (this.selectedFile != null ? this.dataService.uploadImage(this.selectedFile, this.uid) : of({})) : of({}),
-          setData: this.dataService.setData(product.uid, product)
+          setData: this.dataService.setData(this.uid, product)
         })
           .subscribe({
             next: (results) => {

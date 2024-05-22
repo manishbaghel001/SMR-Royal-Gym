@@ -20,13 +20,14 @@
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="phone" class="font-semibold w-6rem">Phone No.</label>
-                <p-inputNumber [disabled]="editMode" maxlength="10" [useGrouping]="false" id="phone" class="flex-auto"
-                    autocomplete="off" name="phone" [(ngModel)]="userdata.phone" required />
+                <p-inputNumber [disabled]="editMode" maxlength="10" [min]="1000000000" [useGrouping]="false" id="phone"
+                    class="flex-auto" autocomplete="off" name="phone" [(ngModel)]="userdata.phone" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="aadhar" class="font-semibold w-9rem ">Aadhar Card No.</label>
-                <p-inputNumber [disabled]="editMode" maxlength="12" [useGrouping]="false" id="aadhar" class="flex-auto"
-                    autocomplete="off" name="aadhar" [(ngModel)]="userdata.aadhar" required />
+                <p-inputNumber [disabled]="editMode" maxlength="12" [min]="100000000000" [useGrouping]="false"
+                    id="aadhar" class="flex-auto" autocomplete="off" name="aadhar" [(ngModel)]="userdata.aadhar"
+                    required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="address" class="font-semibold w-6rem">Address</label>

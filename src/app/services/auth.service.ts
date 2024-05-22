@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { User } from 'firebase/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 @Injectable({
     providedIn: 'root',
@@ -13,10 +13,21 @@ export class AuthService {
     user = this.userSubject.asObservable();
     @Output() valueEmitter = new EventEmitter<string>();
     private inputValueSubject = new BehaviorSubject<boolean>(false);
+    authState: Subscription;
+    state: Subscription;
     constructor(private afAuth: AngularFireAuth, private router: Router) {
-        this.afAuth.authState.subscribe(user => {
+        this.authState = this.afAuth.authState.subscribe(user => {
             this.userSubject.next(user);
         });
+    }
+
+    ngOnDestroy() {
+        if (this.authState) {
+            this.authState.unsubscribe();
+        }
+        if (this.state) {
+            this.state.unsubscribe();
+        }
     }
 
     setLoaderValue(value: boolean) {
@@ -87,7 +98,7 @@ export class AuthService {
     async getUserdata(): Promise<any> {
         this.setLoaderValue(true);
         return new Promise<any>((resolve, reject) => {
-            this.afAuth.authState.subscribe(user => {
+            this.state = this.afAuth.authState.subscribe(user => {
                 if (user) {
                     user.updateProfile({
                         displayName: user.displayName,
