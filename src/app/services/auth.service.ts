@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { User } from 'firebase/auth';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, catchError, finalize, from, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 @Injectable({
     providedIn: 'root',
@@ -46,39 +46,43 @@ export class AuthService {
         return this.inputValueSubject.asObservable();
     }
 
-    signIn(email: string, password: string) {
+    signIn(email: string, password: string): Observable<any> {
         this.setLoaderValue(true);
-        this.afAuth.signInWithEmailAndPassword(email, password).then((res) => {
-            if (res.user) {
-                this.setLoaderValue(false);
-                this.router.navigate(['/admin'])
-            }
-        }, err => {
-            alert(err.message);
-            this.setLoaderValue(false);
-            this.router.navigate(['/login'])
-        });
+        return from(this.afAuth.signInWithEmailAndPassword(email, password))
+            .pipe(
+                catchError((error) => {
+                    {
+                        this.setLoaderValue(false);
+                        alert(error.message);
+                        this.router.navigate(['/login'])
+                    }
+                    return throwError(error);
+                }),
+                finalize(() => {
+                    this.setLoaderValue(false);
+                    this.router.navigate(['/admin'])
+                }
+                )
+            )
     }
 
-    // register(email, password) {
-    //     this.setLoaderValue(true);
-    //     this.afAuth.createUserWithEmailAndPassword(email, password).then((res) => {
-
-    //     }, err => {
-    //         this.setLoaderValue(false);
-    //         alert(err.message);
-    //     });
-    // }
-
-    logout() {
+    logout(): Observable<any> {
         this.setLoaderValue(true);
-        this.afAuth.signOut().then(() => {
-            this.setLoaderValue(false);
-            this.router.navigate(['/login'])
-        }, err => {
-            this.setLoaderValue(false);
-            alert(err.message);
-        });
+        return from(this.afAuth.signOut())
+            .pipe(
+                catchError((error) => {
+                    {
+                        this.setLoaderValue(false);
+                        alert(error.message);
+                    }
+                    return throwError(error);
+                }),
+                finalize(() => {
+                    this.setLoaderValue(false);
+                    this.router.navigate(['/login'])
+                }
+                )
+            )
     }
 
     async forgotPassword(email: string): Promise<any> {

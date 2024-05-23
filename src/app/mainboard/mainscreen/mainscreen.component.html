@@ -240,7 +240,8 @@
                         <div class="form-row">
                             <div class="col form-group">
                                 <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                    placeholder="Contact Number" name="number" ngModel required>
+                                    placeholder="Contact Number" name="number" ngModel required pattern="^[0-9]{10}$"
+                                    minlength="10" maxlength="10" #number="ngModel">
                             </div>
                             <div class="col form-group">
                                 <input type="text" class="form-control form-control-lg bg-dark text-white"

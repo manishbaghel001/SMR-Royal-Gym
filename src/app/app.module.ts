@@ -16,6 +16,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { MainscreenComponent } from './mainboard/mainscreen/mainscreen.component';
 import { LoginComponent } from './mainboard/login/login.component';
+import { NetworkStatusService } from './services/networkstatus.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { LoginComponent } from './mainboard/login/login.component';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     ProgressSpinnerModule,
-    CommonModule
+    CommonModule,
+    ToastModule
   ],
   exports: [
     CommonModule,
@@ -44,7 +48,9 @@ import { LoginComponent } from './mainboard/login/login.component';
     BrowserAnimationsModule
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    NetworkStatusService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

@@ -2,8 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { Observable, Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { NetworkStatusService } from 'src/app/services/networkstatus.service';
 import { AppConfig } from 'src/config';
 
 @Component({
@@ -13,7 +15,7 @@ import { AppConfig } from 'src/config';
 })
 export class MainscreenComponent {
 
-  constructor(private el: ElementRef, private router: Router, private authService: AuthService, private http: HttpClient) { }
+  constructor(private el: ElementRef, private router: Router, private authService: AuthService, private http: HttpClient, private messageService: MessageService, private networkStatusService: NetworkStatusService) { }
   activeMenuItem: string | null = null;
   menuOpen = false;
 
@@ -40,6 +42,10 @@ export class MainscreenComponent {
     }
   }
 
+  isOnline(): Observable<boolean> {
+    return this.networkStatusService.isOnline
+  }
+
   next() {
     this.currentIndex = (this.currentIndex + 1) % this.items.length;
   }
@@ -53,6 +59,7 @@ export class MainscreenComponent {
   }
 
   admin() {
+    this.authService.setLoaderValue(false)
     this.router.navigate(['/admin'])
   }
 
@@ -62,19 +69,45 @@ export class MainscreenComponent {
     }
     else {
       this.authService.setLoaderValue(true)
-      this.connectSub = this.http.post(AppConfig.apiUrl + '/api/mailer/', form)
-        .subscribe({
-          next: (response) => {
-            if (response['status']) {
-              this.authService.setLoaderValue(false)
-              alert('Email sent successfully')
-            }
-          },
-          error: error => {
+      this.connectSub = this.isOnline().pipe(
+        switchMap(isOnline => {
+          if (!isOnline) {
             this.authService.setLoaderValue(false)
-            alert('Email sending failed')
+            this.messageService.add({ severity: 'error', summary: 'Network Error', detail: 'Internet connection lost' });
+            return [];
+          } else {
+            this.http.post(AppConfig.apiUrl + '/api/mailer/', form)
+              .subscribe({
+                next: (response) => {
+                  if (response['status']) {
+                    this.authService.setLoaderValue(false)
+                    alert('Email sent successfully')
+                  }
+                },
+                error: error => {
+                  this.authService.setLoaderValue(false)
+                  alert('Email sending failed')
+                }
+              });
+            return []
           }
-        });
+        })
+      ).subscribe({
+        next: (response) => {
+          if (response['status']) {
+            this.authService.setLoaderValue(false)
+            alert('Email sent successfully')
+          }
+        },
+        error: (error) => {
+          this.authService.setLoaderValue(false)
+          alert('Email sending failed')
+        },
+        complete: () => {
+          this.authService.setLoaderValue(false)
+        }
+      });
+
     }
   }
 

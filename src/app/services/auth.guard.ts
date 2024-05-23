@@ -14,8 +14,10 @@ export class AuthGuard {
     async canActivate(): Promise<boolean | any> {
         this.authService.getUserdata().then((user) => {
             if (user) {
+                this.authService.setLoaderValue(false)
                 return true;
             } else {
+                this.authService.setLoaderValue(false)
                 this.router.navigate(['/login']);
                 return false;
             }

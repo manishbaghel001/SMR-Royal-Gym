@@ -23,6 +23,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { TableComponent } from './table/table.component';
 import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { NgxImageCompressService } from 'ngx-image-compress';
 @NgModule({
   declarations: [
     AdminboardComponent,
@@ -51,6 +52,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
     CardModule,
     InputNumberModule
   ],
-  providers: [MessageService, ConfirmationService],
+  providers: [MessageService, ConfirmationService, NgxImageCompressService],
 })
 export class AdminModule { }
