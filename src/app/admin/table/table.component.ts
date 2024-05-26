@@ -350,8 +350,6 @@ export class TableComponent implements OnInit {
         )
           .subscribe({
             next: (results) => {
-              console.log(results, "Manish");
-
               if (this.userdata['uid']) {
                 if (this.userdata['culprit'] != product['culprit']) {
                   if (product['culprit'] == false) {

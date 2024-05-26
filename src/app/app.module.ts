@@ -19,6 +19,7 @@ import { LoginComponent } from './mainboard/login/login.component';
 import { NetworkStatusService } from './services/networkstatus.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [

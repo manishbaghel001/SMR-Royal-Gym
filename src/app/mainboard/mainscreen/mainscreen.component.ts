@@ -31,9 +31,9 @@ export class MainscreenComponent {
   ];
 
   itemsTest = [
-    { src: '../../../assets/testimonial-1.jpg', alt: 'Image 1', name: 'Manish', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
-    { src: '../../../assets/testimonial-2.jpg', alt: 'Image 2', name: 'John', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
-    { src: '../../../assets/testimonial-3.jpg', alt: 'Image 2', name: 'Client Name', prof: 'Profession', desc: 'Sed ea amet kasd elitr stet nonumy, stet rebum et ipsum est duo elitr eirmod clita lorem.Dolores tempor voluptua ipsum sanctus clita' },
+    { src: '../../../assets/testimonial-1.png', alt: 'Image 1', name: 'Muhammad PK', prof: 'Local Guide', desc: 'SMR Royal Gym in Doddathoguru, Electronic City is a great place to get fit and stay healthy. The gym has a wide variety of equipment, from free weights to cardio machines.' },
+    { src: '../../../assets/testimonial-2.png', alt: 'Image 2', name: 'Pranav Vardhan', prof: 'Software Developer', desc: 'The best gym around the area. The space is a bit small but it has most of the equipments needed. The trainers are good and friendly.' },
+    { src: '../../../assets/testimonial-3.png', alt: 'Image 2', name: 'Megha Murali', prof: 'Lawyer', desc: 'Its a really good gym.i got personal training from Murali.he is a good trainer.i had a great transformation.thank you to Murali & team..keep up the good work!' },
   ];
 
   ngOnDestroy() {
