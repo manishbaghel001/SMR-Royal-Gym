@@ -526,4 +526,11 @@ export class TableComponent implements OnInit {
     this.fileUpload = fileUpload
   }
 
+  openWhatsapp() {
+    const phoneNumber = '+919728859772';
+    const message = 'This is a pre-filled message';
+    const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+    window.location.href = url;
+  }
+
 }
