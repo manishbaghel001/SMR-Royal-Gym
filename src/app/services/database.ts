@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, Subject, catchError, finalize, from, throwError } from 'rxjs';
+import { AuthService } from './auth.service';
 @Injectable({
     providedIn: 'root'
 })
 export class DataService {
-    constructor(private firestore: AngularFirestore, private storage: AngularFireStorage) { }
+    constructor(private authService: AuthService, private firestore: AngularFirestore, private storage: AngularFireStorage) { }
 
     removeImage(path: string): Observable<any> {
         return from(this.storage.ref(path).delete())
@@ -49,6 +50,7 @@ export class DataService {
     }
 
     setData(uid: string, data: any): Observable<any> {
+        this.authService.setLoaderValue(true)
         return from(this.firestore.collection('users').doc(uid).set(data, { merge: true }))
             .pipe(
                 catchError((error) => {

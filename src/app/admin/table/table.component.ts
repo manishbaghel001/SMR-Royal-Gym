@@ -10,6 +10,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import autoTable from 'jspdf-autotable';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -58,7 +59,7 @@ export class TableComponent implements OnInit {
 
   dateTime = new Date();
 
-  constructor(private imageCompress: NgxImageCompressService, private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService, private networkStatusService: NetworkStatusService) {
+  constructor(private authService: AuthService, private imageCompress: NgxImageCompressService, private dataService: DataService, private confirmationService: ConfirmationService, private messageService: MessageService, private networkStatusService: NetworkStatusService) {
     this.dateTime.setDate(this.dateTime.getDate());
   }
 
@@ -496,9 +497,11 @@ export class TableComponent implements OnInit {
               }
               this.userForm.resetForm();
               this.showLoader = false;
+              this.authService.setLoaderValue(false)
             },
             error: (error) => {
               this.showLoader = false;
+              this.authService.setLoaderValue(false)
               console.error('Client add failed!', error);
               alert('Client add failed!');
             }
