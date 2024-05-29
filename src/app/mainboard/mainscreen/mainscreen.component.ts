@@ -42,17 +42,22 @@ export class MainscreenComponent {
     }
   }
 
+  onKeyPress(event: KeyboardEvent) {
+    const char = String.fromCharCode(event.charCode);
+    const isNumeric = char !== '' && !isNaN(Number(char));
+
+    // Allow backspace, delete, tab, arrows, and escape keys
+    const allowedKeys = [8, 46, 9, 37, 38, 39, 40, 27];
+
+    if (!isNumeric && !allowedKeys.includes(event.charCode)) {
+      event.preventDefault(); // Prevent non-numeric characters from being entered
+    }
+  }
+
   isOnline(): Observable<boolean> {
     return this.networkStatusService.isOnline
   }
 
-  next() {
-    this.currentIndex = (this.currentIndex + 1) % this.items.length;
-  }
-
-  prev() {
-    this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
-  }
 
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;

@@ -24,7 +24,7 @@
 <!-- Navbar End -->
 
 <!-- Carousel Start -->
-<div id="carousel" class="container-fluid p-0">
+<div id="carousel" class="p-0">
     <div id="blog-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div *ngFor="let item of items; let i = index" class="carousel-item" [class.active]="i === currentIndex">
@@ -38,10 +38,10 @@
                 </div>
             </div>
         </div>
-        <a class="carousel-control-prev" (click)="prev()" data-slide="prev">
+        <a class="carousel-control-prev" href="#blog-carousel" data-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </a>
-        <a class="carousel-control-next" (click)="next()" data-slide="next">
+        <a class="carousel-control-next" href="#blog-carousel" data-slide="next">
             <span class="carousel-control-next-icon"></span>
         </a>
     </div>
@@ -60,7 +60,8 @@
                 <p>
                     Transform your physique and achieve your fitness goals with our expert bodybuilding training
                     programs.
-                    Unlock your full potential and build the body you've always dreamed of at our state-of-the-art gym.
+                    Unlock your full potential and build the body you've always dreamed of at our state-of-the-art
+                    gym.
                 </p>
                 <a (click)="scrollTo('connect')" class="btn btn-lg btn-outline-light mt-4 px-4">Join Now</a>
             </div>
@@ -90,7 +91,8 @@
         </div>
         <div class="col-lg-6">
             <h2 class="display-4 font-weight-bold mb-4">10 Years Experience</h2>
-            <p>With 10 years of experience as both a gym trainer and owner, We bring expert knowledge and a passion for
+            <p>With 10 years of experience as both a gym trainer and owner, We bring expert knowledge and a passion
+                for
                 fitness to help
                 you achieve your goals.</p>
             <div class="row py-2">
@@ -189,7 +191,8 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="font-weight-bold">Free WiFi & AC</h4>
-                    <p>Join our gym for top-notch facilities, including free WiFi and AC, ensuring a comfortable workout
+                    <p>Join our gym for top-notch facilities, including free WiFi and AC, ensuring a comfortable
+                        workout
                         experience</p>
                 </div>
             </div>
@@ -202,7 +205,8 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="font-weight-bold">Community Support</h4>
-                    <p>Join our gym for a supportive community that motivates and encourages each other, making fitness
+                    <p>Join our gym for a supportive community that motivates and encourages each other, making
+                        fitness
                         goals easier to
                         achieve.</p>
                 </div>
@@ -220,7 +224,8 @@
                 <div class="pr-md-3 d-none d-md-block">
                     <h4 class="text-primary">Connect With US </h4>
                     <h4 class="display-4 text-white font-weight-bold mb-4">Benifits to Connect?</h4>
-                    <p class="m-0 text-white">Connect with us to stay updated on exciting gym events, exclusive offers,
+                    <p class="m-0 text-white">Connect with us to stay updated on exciting gym events, exclusive
+                        offers,
                         and fitness tips to elevate your workout
                         experience.</p>
                 </div>
@@ -236,14 +241,26 @@
                             </div>
                             <div class="col form-group">
                                 <input type="email" class="form-control form-control-lg bg-dark text-white"
-                                    placeholder="Email" name="email" ngModel required>
+                                    placeholder="Email" name="email" email required ngModel #email="ngModel"
+                                    [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }">
+                                <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                    class="-mb-4 invalid-feedback">
+                                    <div *ngIf="email['errors']['required']">Email is required.</div>
+                                    <div *ngIf="email['errors']['email']">Please enter a valid email address.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col form-group">
                                 <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                    placeholder="Contact Number" name="number" ngModel required pattern="^[0-9]{10}$"
-                                    minlength="10" maxlength="10" #number="ngModel">
+                                    placeholder="Contact Number" name="number" ngModel required pattern="^[0-9]*$"
+                                    minlength="10" maxlength="10" #number="ngModel" (keypress)="onKeyPress($event)"
+                                    [ngClass]="{ 'is-invalid': number.invalid && (number.dirty || number.touched) }">
+                                <div *ngIf="number.invalid && (number.dirty || number.touched)"
+                                    class="-mb-4 invalid-feedback">
+                                    <div *ngIf="number['errors']['required']">Phone number is required.</div>
+                                    <div *ngIf="number['errors']['minlength']">Please enter a valid phone number.</div>
+                                </div>
                             </div>
                             <div class="col form-group">
                                 <input type="text" class="form-control form-control-lg bg-dark text-white"
@@ -360,12 +377,9 @@
                 <div class="d-flex align-items-center px-3" style="min-height: 450px;">
                     <div id="carouselId" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselId" data-slide-to="0" [class.active]="currentIndexTest==0"
-                                (click)="currentIndexTest=0"></li>
-                            <li data-target="#carouselId" data-slide-to="1" [class.active]="currentIndexTest==1"
-                                (click)="currentIndexTest=1"></li>
-                            <li data-target="#carouselId" data-slide-to="2" [class.active]="currentIndexTest==2"
-                                (click)="currentIndexTest=2"></li>
+                            <li data-target="#carouselId" data-slide-to="0" active="active"></li>
+                            <li data-target="#carouselId" data-slide-to="1"></li>
+                            <li data-target="#carouselId" data-slide-to="2"></li>
                         </ol>
                         <div class="carousel-inner" role="listbox">
                             <div *ngFor="let item of itemsTest; let i = index" class="carousel-item"
@@ -390,7 +404,8 @@
                 <div class="pl-md-3 d-none d-md-block">
                     <h4 class="text-primary">Testimonial</h4>
                     <h4 class="display-4 mb-4 text-white font-weight-bold">What Our Clients Say?</h4>
-                    <p class="m-0 text-white">Discover what our clients are saying about their transformative fitness
+                    <p class="m-0 text-white">Discover what our clients are saying about their transformative
+                        fitness
                         journeys and the exceptional service they
                         receive at our gym.</p>
                 </div>
@@ -426,13 +441,17 @@
                     </div>
                 </div>
             </div>
-            <p>Let's talk about the ultimate gym experience - Gym Xperience. I recently embarked on a fitness journey
-                like no other, and let me tell you, it was a game-changer. From the moment I stepped in, I was greeted
+            <p>Let's talk about the ultimate gym experience - Gym Xperience. I recently embarked on a fitness
+                journey
+                like no other, and let me tell you, it was a game-changer. From the moment I stepped in, I was
+                greeted
                 with an atmosphere buzzing with
                 energy and positivity.
 
-                SRM Royal Gym isn't just a gym; it's a sanctuary for fitness aficionados. With cutting-edge facilities
-                and a community that feels more like family, every session feels like a victory lap. Trust me, if you're
+                SRM Royal Gym isn't just a gym; it's a sanctuary for fitness aficionados. With cutting-edge
+                facilities
+                and a community that feels more like family, every session feels like a victory lap. Trust me, if
+                you're
                 ready to level up your fitness
                 game, Gym Xperience is where it's at!</p>
             <!-- <a class="btn btn-outline-primary mt-2 px-3" href="">Read More <i class="fa fa-angle-right"></i></a> -->
@@ -460,11 +479,14 @@
                 to life. That's exactly what I found at SRM Royal GYM – a haven bustling with contagious energy and
                 unwavering support.
 
-                SRM Royal GYM isn't your run-of-the-mill gym; it's a lifestyle. With state-of-the-art equipment and a
+                SRM Royal GYM isn't your run-of-the-mill gym; it's a lifestyle. With state-of-the-art equipment and
+                a
                 tribe of like-minded
-                individuals cheering you on, every workout feels like a celebration of progress. If you're searching for
+                individuals cheering you on, every workout feels like a celebration of progress. If you're searching
+                for
                 a fitness
-                sanctuary that feels like home, look no further than SRM Royal GYM – where sweat, smiles, and success
+                sanctuary that feels like home, look no further than SRM Royal GYM – where sweat, smiles, and
+                success
                 collide! 🏋️‍♀️💪</p>
             <!-- <a class="btn btn-outline-primary mt-2 px-3" href="">Read More <i class="fa fa-angle-right"></i></a> -->
         </div>
@@ -504,7 +526,8 @@
                     Features</a>
                 <a (click)="scrollTo('classes')" class="text-white mb-2"><i
                         class="fa fa-angle-right mr-2"></i>Classes</a>
-                <a (click)="scrollTo('footer')" class="text-white"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                <a (click)="scrollTo('footer')" class="text-white"><i class="fa fa-angle-right mr-2"></i>Contact
+                    Us</a>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
@@ -517,7 +540,8 @@
                     Features</a>
                 <a (click)="scrollTo('classes')" class="text-white mb-2"><i
                         class="fa fa-angle-right mr-2"></i>Classes</a>
-                <a (click)="scrollTo('footer')" class="text-white"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                <a (click)="scrollTo('footer')" class="text-white"><i class="fa fa-angle-right mr-2"></i>Contact
+                    Us</a>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">

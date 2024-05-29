@@ -6,6 +6,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { Observable, Subscription, forkJoin, switchMap } from 'rxjs';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { NetworkStatusService } from 'src/app/services/networkstatus.service';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import autoTable from 'jspdf-autotable';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -43,6 +47,12 @@ export class TableComponent implements OnInit {
   forkJoin: Subscription;
   getData: Subscription;
   forkJoinAddUser: Subscription;
+  selectedProducts: [];
+  cols: any[];
+  pendingCols: any[];
+
+  exportColumns: any[];
+  exportPendingColumns: any[];
 
   @ViewChild('userForm') userForm!: NgForm;
 
@@ -67,12 +77,126 @@ export class TableComponent implements OnInit {
     }
   }
 
+  exportPdf() {
+    const doc = new jsPDF('portrait', 'px', 'a4');
+    const storage = getStorage();
+
+    const imageDataPromises = this.users.map(user => {
+      const storageRef = ref(storage, user.photo);
+      return getDownloadURL(storageRef).then(url => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = url;
+          img.crossOrigin = 'anonymous';
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            try {
+              const imageDataURL = canvas.toDataURL('image/jpeg');
+              resolve(imageDataURL);
+            } catch (error) {
+              console.error('Failed to get image data URL:', error);
+              resolve(null);
+            }
+          };
+          img.onerror = () => {
+            console.error('Image failed to load:', user.photo);
+            reject(new Error('Image failed to load'));
+          };
+        });
+      }).catch(error => {
+        console.error('Failed to get download URL:', error);
+        return null;
+      });
+    });
+
+    Promise.all(imageDataPromises).then(imageData => {
+      // let gh = "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      // doc.addImage(gh, 'JPEG', 10, doc.internal.pageSize.height - 40, 30, 30);
+      doc.setFontSize(5);
+      autoTable(doc, {
+        startY: 20,
+        columns: this.userTableHdn ? this.exportColumns : this.exportPendingColumns,
+        body: this.users.map((user, index) => ({
+          ...user,
+          photo: imageData[index] || 'data:image/jpeg;base64,...',
+        })),
+      });
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      let date = mm + '-' + dd + '-' + yyyy;
+      if (this.userTableHdn) {
+        doc.save('Pending_Fee_Clients_' + date + '.pdf');
+      } else {
+        doc.save('All_Clients_' + date + '.pdf');
+      }
+    }).catch(error => {
+      console.error('Error loading images:', error);
+    });
+  }
+
+  // exportExcel() {
+  //   import("xlsx").then(xlsx => {
+  //     const worksheet = xlsx.utils.json_to_sheet(this.users);
+  //     const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+  //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, "products");
+  //   });
+  // }
+
+  // saveAsExcelFile(buffer: any, fileName: string): void {
+  //   let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //   let EXCEL_EXTENSION = '.xlsx';
+  //   const data: Blob = new Blob([buffer], {
+  //     type: EXCEL_TYPE
+  //   });
+  //   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  // }
+
   isOnline(): Observable<boolean> {
     return this.networkStatusService.isOnline
   }
 
   ngOnInit(): void {
     this.reset();
+    this.cols = [
+      { field: "id", header: "ID No" },
+      { field: "name", header: "Name" },
+      { field: "phone", header: "Phone Number" },
+      { field: "aadhar", header: "Aadhar Card" },
+      { field: "address", header: "Address" },
+      { field: "doj", header: "Date of Joining" },
+      { field: "advance", header: "Advance" },
+      { field: "fee", header: "Fee" },
+      // {
+      //   field: 'photo',
+      //   header: 'Photo',
+      // },
+    ];
+
+    this.pendingCols = [
+      { field: "id", header: "ID No" },
+      { field: "name", header: "Name" },
+      { field: "phone", header: "Phone Number" },
+      { field: "feedate", header: "Fee Date" },
+      { field: "package", header: "Package" },
+    ];
+
+    this.exportColumns = this.cols.map(col => ({
+      title: col.header,
+      dataKey: col.field
+    }));
+
+    this.exportPendingColumns = this.pendingCols.map(col => ({
+      title: col.header,
+      dataKey: col.field
+    }));
   }
 
   reset(): void {
