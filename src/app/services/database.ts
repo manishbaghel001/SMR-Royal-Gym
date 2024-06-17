@@ -9,6 +9,10 @@ import { AuthService } from './auth.service';
 export class DataService {
     constructor(private authService: AuthService, private firestore: AngularFirestore, private storage: AngularFireStorage) { }
 
+    getImageUrl(path: string) {
+        return this.storage.ref(path).getDownloadURL()
+    }
+
     removeImage(path: string): Observable<any> {
         return from(this.storage.ref(path).delete())
             .pipe(
@@ -29,6 +33,7 @@ export class DataService {
         uploadTask.snapshotChanges().pipe(
             finalize(async () => {
                 try {
+                    this.storage.ref(path).getDownloadURL()
                     statusSubject.next('completed');
                     statusSubject.complete();
                 } catch (error) {
@@ -75,6 +80,17 @@ export class DataService {
                 }),
                 finalize(() => "Data Fetched")
             )
+    }
+
+    getDataById(uid: string): Observable<any> {
+        return from(this.firestore.collection('users').doc(uid).get())
+            .pipe(
+                catchError((error) => {
+                    alert('An error occurred while fetching the user data. Please try again.');
+                    return throwError(error);
+                }),
+                finalize(() => console.log("User Data Fetched"))
+            );
     }
 
     deleteData(uid: string): Observable<any> {

@@ -11,6 +11,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.headerLight {
+    color: #000;
+    background: rgb(241, 241, 241);
+    border: 1px solid rgb(227, 227, 227);
+}
+
+.headerDark {
+    color: #fff;
     background: #161616;
     border: 1px solid #272727;
 }
@@ -19,11 +29,12 @@
     font-size: large;
 }
 
-.theme {
-    background-color: #232323;
+.themeLight {
+    background-color: rgb(246, 246, 246);
     min-height: 100vh;
 }
 
-.headTitle {
-    color: #fff;
+.themeDark {
+    background-color: #232323;
+    min-height: 100vh;
 }

@@ -246,6 +246,7 @@ export class TableComponent implements OnInit {
     this.feeDate = new Date(this.convertToDate(product['feedate']))
     this.dojDate = new Date(this.convertToDate(product['doj']))
     this.editMode = !this.userTableHdn;
+    this.updateBtnHdn = false;
 
     product = { ...product, package: this.packageId.find((id => id['name'] == product['package'])) };
     this.userdata = product
@@ -379,17 +380,16 @@ export class TableComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
-  compressFile(image: File, uid) {
+  compressFile(image: File, uid, product) {
     const reader = new FileReader();
     reader.readAsDataURL(image);
     reader.onload = (event) => {
       const imageDataUrl = event.target.result as string;
-
-      this.compressImage(imageDataUrl, image.name, uid);
+      this.compressImage(imageDataUrl, image.name, uid, product);
     };
   }
 
-  compressImage(imageDataUrl: string, fileName: string, uid) {
+  compressImage(imageDataUrl: string, fileName: string, uid, product) {
     const quality = 50;
     const maxWidth = 800;
     const maxHeight = 800;
@@ -403,7 +403,34 @@ export class TableComponent implements OnInit {
         }
         this.selectedFile = compressedFile
         if (!this.imageUploaded && this.selectedFile != null) {
-          this.dataService.uploadImage(this.selectedFile, uid)
+          this.forkJoinAddUser = this.isOnline().pipe(
+            switchMap(isOnline => {
+              if (!isOnline) {
+                this.messageService.add({ severity: 'error', summary: 'Network Error', detail: 'Internet connection lost' });
+                this.showLoader = false;
+                return [];
+              } else {
+                return this.dataService.uploadImage(this.selectedFile, uid)
+              }
+            })
+          )
+            .subscribe({
+              next: (results) => {
+                this.dataService.getImageUrl(uid).subscribe((result) => {
+                  const timestamp = new Date().getTime();
+                  let photoUrl = result + '&amp;t=' + timestamp
+                  product = { ...product, photo: photoUrl }
+                  this.updateData(product)
+                })
+
+              },
+              error: (error) => {
+                this.showLoader = false;
+                this.authService.setLoaderValue(false)
+                console.error('Client add failed!', error);
+                alert('Client add failed!');
+              }
+            });
         }
       }
     );
@@ -441,74 +468,90 @@ export class TableComponent implements OnInit {
     if (this.uid) {
       this.showLoader = true;
 
-      product['package'] = product['package']['code'];
+      product['package'] = product['package'] ? product['package']['code'] : product['package'];
 
       const feeDateObject = new Date(this.feeDate);
       const dojDataObject = new Date(this.dojDate);
       const nextDateObject = new Date(this.feeDate);
       nextDateObject.setMonth(feeDateObject.getMonth() + product.package);
 
-      const timestamp = new Date().getTime();
-      let photoUrl = 'https://firebasestorage.googleapis.com/v0/b/srm-royal-gym.appspot.com/o/' + this.uid + '?alt=media&amp;token=70e5f4a4-0df3-4679-80af-1d981835a671&amp;t=' + timestamp
+      let today = (new Date()).toLocaleDateString('en-US');
 
-      product = {
-        ...product, uid: this.uid, photo: photoUrl, nextFeeDate: this.convertToStrDate(nextDateObject),
-        doj: this.convertToStrDate(dojDataObject), feedate: this.convertToStrDate(feeDateObject),
-        culprit: this.isPastOrToday(this.convertToStrDate(nextDateObject))
+      let trans = {
+        date: today,
+        feedate: this.convertToStrDate(feeDateObject),
+        package: this.packageId.find((id => id['code'] == product['package']))['name'],
+        fee: product.fee
       }
 
-      if (this.selectedFile != null && !this.imageUploaded) {
-        this.compressFile(this.selectedFile, this.uid)
-      }
+      this.dataService.getDataById(this.uid).subscribe((userData) => {
+        if (userData.data()) {
+          product['transaction'] = userData.data()['transaction']
+          product['transaction'].push(trans);
+        } else {
+          product['transaction'] = [];
+        }
 
-      setTimeout(() => {
-        this.forkJoinAddUser = this.isOnline().pipe(
-          switchMap(isOnline => {
-            if (!isOnline) {
-              this.messageService.add({ severity: 'error', summary: 'Network Error', detail: 'Internet connection lost' });
-              this.showLoader = false;
-              return [];
-            } else {
-              return this.dataService.setData(this.uid, product)
-            }
-          })
-        )
-          .subscribe({
-            next: (results) => {
-              if (this.userdata['uid']) {
-                if (this.userdata['culprit'] != product['culprit']) {
-                  if (product['culprit'] == false) {
-                    this.messageService.add({ severity: 'success', summary: 'Confirm Fee', detail: 'Fee paid for this client' });
-                  }
-                  else if (product['culprit'] == true) {
-                    this.messageService.add({ severity: 'warn', summary: 'Fee Update', detail: 'Fee pending for this client' });
-                  }
-                } else {
-                  this.messageService.add({ severity: 'info', summary: 'Client Updated', detail: 'Client Details Updated' });
-                }
-              }
-              else {
-                this.messageService.add({ severity: 'info', summary: 'Client Added', detail: 'New Client Added' });
-              }
-              this.selectedFile = null;
-              this.visible = false;
-              if (this.fileUpload) {
-                this.fileUpload.clear();
-              }
-              this.userForm.resetForm();
-              this.showLoader = false;
-              this.authService.setLoaderValue(false)
-            },
-            error: (error) => {
-              this.showLoader = false;
-              this.authService.setLoaderValue(false)
-              console.error('Client add failed!', error);
-              alert('Client add failed!');
-            }
-          });
-      }, 2000);
+        product = {
+          ...product, uid: this.uid, nextFeeDate: this.convertToStrDate(nextDateObject),
+          doj: this.convertToStrDate(dojDataObject), feedate: this.convertToStrDate(feeDateObject),
+          culprit: this.isPastOrToday(this.convertToStrDate(nextDateObject))
+        }
 
+        if (this.selectedFile != null && !this.imageUploaded) {
+          this.compressFile(this.selectedFile, this.uid, product)
+        } else {
+          this.updateData(product)
+        }
+      })
     }
+  }
+
+  updateData(product) {
+    this.forkJoinAddUser = this.isOnline().pipe(
+      switchMap(isOnline => {
+        if (!isOnline) {
+          this.messageService.add({ severity: 'error', summary: 'Network Error', detail: 'Internet connection lost' });
+          this.showLoader = false;
+          return [];
+        } else {
+          return this.dataService.setData(this.uid, product)
+        }
+      })
+    )
+      .subscribe({
+        next: (results) => {
+          if (this.userdata['uid']) {
+            if (this.userdata['culprit'] != product['culprit']) {
+              if (product['culprit'] == false) {
+                this.messageService.add({ severity: 'success', summary: 'Confirm Fee', detail: 'Fee paid for this client' });
+              }
+              else if (product['culprit'] == true) {
+                this.messageService.add({ severity: 'warn', summary: 'Fee Update', detail: 'Fee pending for this client' });
+              }
+            } else {
+              this.messageService.add({ severity: 'info', summary: 'Client Updated', detail: 'Client Details Updated' });
+            }
+          }
+          else {
+            this.messageService.add({ severity: 'info', summary: 'Client Added', detail: 'New Client Added' });
+          }
+          this.selectedFile = null;
+          this.visible = false;
+          if (this.fileUpload) {
+            this.fileUpload.clear();
+          }
+          this.userForm.resetForm();
+          this.showLoader = false;
+          this.authService.setLoaderValue(false)
+        },
+        error: (error) => {
+          this.showLoader = false;
+          this.authService.setLoaderValue(false)
+          console.error('Client add failed!', error);
+          alert('Client add failed!');
+        }
+      });
   }
 
   allUser() {

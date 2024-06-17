@@ -13,59 +13,83 @@
         <div class="flex flex-wrap">
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="id" class="font-semibold w-6rem">ID No</label>
-                <p-inputNumber [disabled]="editMode" maxlength="10" [useGrouping]="false" id="id" class="flex-auto"
-                    autocomplete="off" name="id" [(ngModel)]="userdata.id" required />
+                <p-inputNumber [disabled]="editMode" placeholder="ID No" maxlength="10" [useGrouping]="false" id="id"
+                    class="flex-auto" autocomplete="off" name="id" [(ngModel)]="userdata.id" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="name" class="font-semibold w-6rem">Name</label>
-                <input pInputText [disabled]="editMode" type="text" id="name" class="flex-auto" autocomplete="off"
-                    name="name" [(ngModel)]="userdata.name" required />
+                <input pInputText [disabled]="editMode" placeholder="Name" type="text" id="name" class="flex-auto"
+                    autocomplete="off" name="name" [(ngModel)]="userdata.name" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="phone" class="font-semibold w-6rem">Phone No.</label>
-                <p-inputNumber [disabled]="editMode" maxlength="10" [min]="1000000000" [useGrouping]="false" id="phone"
-                    class="flex-auto" autocomplete="off" name="phone" [(ngModel)]="userdata.phone" required />
+                <p-inputNumber [disabled]="editMode" placeholder="Phone No." maxlength="10" [min]="1000000000"
+                    [useGrouping]="false" id="phone" class="flex-auto" autocomplete="off" name="phone"
+                    [(ngModel)]="userdata.phone" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="aadhar" class="font-semibold w-9rem ">Aadhar Card No.</label>
-                <p-inputNumber [disabled]="editMode" maxlength="12" [min]="100000000000" [useGrouping]="false"
-                    id="aadhar" class="flex-auto" autocomplete="off" name="aadhar" [(ngModel)]="userdata.aadhar"
-                    required />
+                <p-inputNumber [disabled]="editMode" placeholder="Aadhar" maxlength="12" [min]="100000000000"
+                    [useGrouping]="false" id="aadhar" class="flex-auto" autocomplete="off" name="aadhar"
+                    [(ngModel)]="userdata.aadhar" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="address" class="font-semibold w-6rem">Address</label>
-                <input pInputText [disabled]="editMode" type="text" id="address" class="flex-auto" autocomplete="off"
-                    name="address" [(ngModel)]="userdata.address" required />
+                <input pInputText [disabled]="editMode" placeholder="Address" type="text" id="address" class="flex-auto"
+                    autocomplete="off" name="address" [(ngModel)]="userdata.address" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="doj" class="font-semibold w-9rem">Date Of Joining</label>
                 <p-calendar [maxDate]="dateTime" [disabled]="editMode" [showIcon]="true" class="flex-auto" name="doj"
-                    inputId="doj" [showOnFocus]="false" dateFormat="dd/mm/yy" id="doj" autocomplete="off"
-                    [(ngModel)]="dojDate" [showButtonBar]="true" required />
+                    inputId="doj" [showOnFocus]="false" placeholder="Select Date of Joining" dateFormat="dd/mm/yy"
+                    id="doj" autocomplete="off" [(ngModel)]="dojDate" [showButtonBar]="true" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="advance" class="font-semibold w-6rem">Advance</label>
                 <p-inputNumber [disabled]="editMode" maxlength="6" mode="currency" inputId="currency-india"
-                    currency="INR" [minFractionDigits]="0" locale="en-IN" id="advance" class="flex-auto"
-                    autocomplete="off" name="advance" [(ngModel)]="userdata.advance" required />
+                    currency="INR" [minFractionDigits]="0" placeholder="Advance" locale="en-IN" id="advance"
+                    class="flex-auto" autocomplete="off" name="advance" [(ngModel)]="userdata.advance" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="fee" class="font-semibold w-6rem">Fee</label>
-                <p-inputNumber [disabled]="editMode" maxlength="6" mode="currency" inputId="currency-india"
+                <p-inputNumber maxlength="6" placeholder="Fee" mode="currency" inputId="currency-india"
                     [minFractionDigits]="0" currency="INR" locale="en-IN" id="fee" class="flex-auto" autocomplete="off"
                     name="fee" [(ngModel)]="userdata.fee" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="feedate" class="font-semibold w-6rem"> Fee Date </label>
-                <p-calendar [maxDate]="dateTime" [showIcon]="true" class="flex-auto" name="feedate" inputId="feedate"
-                    [showOnFocus]="false" dateFormat="dd/mm/yy" id="feedate" autocomplete="off" [(ngModel)]="feeDate"
-                    [showButtonBar]="true" required />
+                <p-calendar [maxDate]="dateTime" [showIcon]="true" placeholder="Select Fee Date" class="flex-auto"
+                    name="feedate" inputId="feedate" [showOnFocus]="false" dateFormat="dd/mm/yy" id="feedate"
+                    autocomplete="off" [(ngModel)]="feeDate" [showButtonBar]="true" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="package" class="font-semibold w-6rem">Package</label>
                 <p-dropdown [options]="packageId" class="flex-auto" id="package" autocomplete="off" name="package"
                     [(ngModel)]="userdata.package" optionLabel="name" [showClear]="true" placeholder="Select a Package"
                     required />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="aadhar" class="font-semibold w-9rem ">Height</label>
+                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Height" [useGrouping]="false"
+                    id="height" class="flex-auto" autocomplete="off" suffix=" cm" name="height"
+                    [(ngModel)]="userdata.height" />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="package" class="font-semibold w-6rem">Weight</label>
+                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Weight" [useGrouping]="false"
+                    id="weight" class="flex-auto" autocomplete="off" suffix=" kg" name="weight"
+                    [(ngModel)]="userdata.weight" />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="package" class="font-semibold w-6rem">Chest Size</label>
+                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Chest" [useGrouping]="false" id="chest"
+                    class="flex-auto" autocomplete="off" suffix=" cm" name="chest" [(ngModel)]="userdata.chest" />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="package" class="font-semibold w-6rem">Biceps Size</label>
+                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Biceps" [useGrouping]="false"
+                    id="biceps" suffix=" cm" class="flex-auto" autocomplete="off" name="biceps"
+                    [(ngModel)]="userdata.biceps" />
             </div>
         </div>
 
@@ -87,7 +111,28 @@
             </div>
         </div>
 
-        <div class="flex justify-content-end gap-3">
+        <p-panel *ngIf="editMode" header="Transactions Table" [toggleable]="true" [collapsed]="true">
+            <p-table [value]="userdata['transaction']" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Transaction Date</th>
+                        <th>Fee Date</th>
+                        <th>Package</th>
+                        <th>Amount</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>{{ product.date }}</td>
+                        <td>{{ product.feedate }}</td>
+                        <td>{{ product.package }}</td>
+                        <td>{{ product.fee }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-panel>
+
+        <div class="flex justify-content-end gap-3 mt-5">
             <p-button label="Cancel" severity="secondary" (click)="cancel()" />
             <p-button *ngIf="updateBtnHdn" label="Save" type="submit" />
             <p-button *ngIf="!updateBtnHdn" label="Update" type="submit" />
@@ -99,11 +144,10 @@
 
     <!-- New User -->
     <div class="flex justify-content-end gap-3 mb-4">
-        <p-button *ngIf="!userTableHdn" size="small" (click)="allUser()" severity="info" [raised]="true"
-            label="All Clients" />
-        <p-button *ngIf="userTableHdn" size="small" (click)="feePendindUser()" severity="danger" [raised]="true"
+        <p-button *ngIf="!userTableHdn" (click)="allUser()" severity="info" [raised]="true" label="All Clients" />
+        <p-button *ngIf="userTableHdn" (click)="feePendindUser()" severity="danger" [raised]="true"
             label="Pending Fee Clients" />
-        <p-button (click)="newUser()" size="small" severity="success" [raised]="true" label="Add New Client" />
+        <p-button (click)="newUser()" severity="success" [raised]="true" label="Add New Client" />
     </div>
 
     <!-- User Table -->
@@ -120,8 +164,9 @@
                         pTooltip="CSV" tooltipPosition="bottom"></button>
                     <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
                         class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button> -->
-                    <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
-                        class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+                    <button type="button" pButton [rounded]="true" [text]="true" severity="warning" size="large" pRipple
+                        icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF"
+                        tooltipPosition="bottom"></button>
                     <span *ngIf="userTableHdn"> List of Clients </span>
                     <span *ngIf="!userTableHdn"> Pending Fee Clients </span>
                     <span class="p-input-icon-left">

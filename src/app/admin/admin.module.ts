@@ -24,6 +24,7 @@ import { TableComponent } from './table/table.component';
 import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { PanelModule } from 'primeng/panel';
 @NgModule({
   declarations: [
     AdminboardComponent,
@@ -50,7 +51,8 @@ import { NgxImageCompressService } from 'ngx-image-compress';
     IconFieldModule,
     InputIconModule,
     CardModule,
-    InputNumberModule
+    InputNumberModule,
+    PanelModule
   ],
   providers: [MessageService, ConfirmationService, NgxImageCompressService],
 })

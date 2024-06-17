@@ -4,6 +4,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { NetworkStatusService } from 'src/app/services/networkstatus.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-adminboard',
@@ -13,10 +14,18 @@ import { NetworkStatusService } from 'src/app/services/networkstatus.service';
 
 export class AdminboardComponent implements OnInit {
 
-  constructor(private router: Router, private authService: AuthService, private confirmationService: ConfirmationService, private messageService: MessageService, private networkStatusService: NetworkStatusService) { }
+  constructor(private router: Router, private authService: AuthService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private networkStatusService: NetworkStatusService,
+    private themeService: ThemeService
+  ) { }
+
+  selectedTheme: string = 'dark';
 
   ngOnInit() {
-    this.authService.setLoaderValue(false)
+    this.authService.setLoaderValue(false);
+    this.themeService.setTheme(this.selectedTheme)
   }
 
   isOnline(): Observable<boolean> {
@@ -25,6 +34,16 @@ export class AdminboardComponent implements OnInit {
 
   mainScreen() {
     this.router.navigate(['/main'])
+  }
+
+  darkTheme() {
+    this.selectedTheme = 'light'
+    this.themeService.setTheme(this.selectedTheme)
+  }
+
+  lightTheme() {
+    this.selectedTheme = 'dark'
+    this.themeService.setTheme(this.selectedTheme)
   }
 
   logout(event: Event) {

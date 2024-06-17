@@ -18,6 +18,15 @@
     width: 100%;
 }
 
+::ng-deep .p-inputtext {
+    margin: 0;
+    padding: 12px;
+}
+
+::ng-deep .p-input-icon-left>.p-inputtext {
+    padding-left: 3rem;
+}
+
 .progress-spinner {
     position: fixed;
     z-index: 9999;
