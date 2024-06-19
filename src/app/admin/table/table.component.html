@@ -70,26 +70,33 @@
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="aadhar" class="font-semibold w-9rem ">Height</label>
-                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Height" [useGrouping]="false"
-                    id="height" class="flex-auto" autocomplete="off" suffix=" cm" name="height"
-                    [(ngModel)]="userdata.height" />
+                <p-inputNumber [disabled]="editMode" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="4"
+                    maxlength="8" placeholder="Height" [useGrouping]="false" id="height" class="flex-auto"
+                    autocomplete="off" suffix=" cm" name="height" [(ngModel)]="userdata.height" />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="package" class="font-semibold w-6rem">Weight</label>
-                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Weight" [useGrouping]="false"
-                    id="weight" class="flex-auto" autocomplete="off" suffix=" kg" name="weight"
-                    [(ngModel)]="userdata.weight" />
+                <p-inputNumber [disabled]="editMode" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+                    maxlength="8" placeholder="Weight" [useGrouping]="false" id="weight" class="flex-auto"
+                    autocomplete="off" suffix=" kg" name="weight" [(ngModel)]="userdata.weight" />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="package" class="font-semibold w-6rem">Chest Size</label>
-                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Chest" [useGrouping]="false" id="chest"
-                    class="flex-auto" autocomplete="off" suffix=" cm" name="chest" [(ngModel)]="userdata.chest" />
+                <p-inputNumber mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [disabled]="editMode"
+                    maxlength="8" placeholder="Chest" [useGrouping]="false" id="chest" class="flex-auto"
+                    autocomplete="off" suffix=" cm" name="chest" [(ngModel)]="userdata.chest" />
+            </div>
+            <div class="flex flex-column gap-3 mb-5 mr-4">
+                <label for="package" class="font-semibold w-6rem">Waist Size</label>
+                <p-inputNumber mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [disabled]="editMode"
+                    maxlength="8" placeholder="Waist" [useGrouping]="false" id="waist" class="flex-auto"
+                    autocomplete="off" suffix=" cm" name="waist" [(ngModel)]="userdata.waist" />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="package" class="font-semibold w-6rem">Biceps Size</label>
-                <p-inputNumber [disabled]="editMode" maxlength="3" placeholder="Biceps" [useGrouping]="false"
-                    id="biceps" suffix=" cm" class="flex-auto" autocomplete="off" name="biceps"
-                    [(ngModel)]="userdata.biceps" />
+                <p-inputNumber mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [disabled]="editMode"
+                    maxlength="8" placeholder="Biceps" [useGrouping]="false" id="biceps" suffix=" cm" class="flex-auto"
+                    autocomplete="off" name="biceps" [(ngModel)]="userdata.biceps" />
             </div>
         </div>
 
