@@ -46,13 +46,13 @@
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="advance" class="font-semibold w-6rem">Advance</label>
-                <p-inputNumber [disabled]="editMode" maxlength="6" mode="currency" inputId="currency-india"
+                <p-inputNumber [disabled]="editMode" maxlength="10" mode="currency" inputId="currency-india"
                     currency="INR" [minFractionDigits]="0" placeholder="Advance" locale="en-IN" id="advance"
                     class="flex-auto" autocomplete="off" name="advance" [(ngModel)]="userdata.advance" required />
             </div>
             <div class="flex flex-column gap-3 mb-5 mr-4">
                 <label for="fee" class="font-semibold w-6rem">Fee</label>
-                <p-inputNumber maxlength="6" placeholder="Fee" mode="currency" inputId="currency-india"
+                <p-inputNumber maxlength="10" placeholder="Fee" mode="currency" inputId="currency-india"
                     [minFractionDigits]="0" currency="INR" locale="en-IN" id="fee" class="flex-auto" autocomplete="off"
                     name="fee" [(ngModel)]="userdata.fee" required />
             </div>
