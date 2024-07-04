@@ -120,7 +120,7 @@
         <div class="flex justify-content-end gap-3 mt-5 mb-5">
             <p-button label="Cancel" severity="secondary" (click)="cancel()" />
             <p-button *ngIf="updateBtnHdn" label="Save" type="submit" />
-            <p-button *ngIf="!updateBtnHdn" label="Update" type="submit" />
+            <p-button *ngIf="!updateBtnHdn" [disabled]="editMode" label="Update" type="submit" />
         </div>
     </form>
 
